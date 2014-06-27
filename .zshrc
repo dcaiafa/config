@@ -4,6 +4,7 @@ ZSH_THEME="avit"
 DISABLE_AUTO_UPDATE="true"
 DISABLE_AUTO_TITLE="true"
 DISABLE_UNTRACKED_FILES_DIRTY="true"
+ZSH_CUSTOM=$HOME/config/oh-my-zsh/custom
 
 plugins=(git)
 
