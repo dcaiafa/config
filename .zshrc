@@ -1,45 +1,21 @@
-HISTFILE=~/.histfile
-HISTSIZE=1000
-SAVEHIST=1000
-KEYTIMEOUT=1
+export ZSH=$HOME/.oh-my-zsh
 
-setopt extendedglob nomatch
-unsetopt beep
+ZSH_THEME="avit"
+DISABLE_AUTO_UPDATE="true"
+DISABLE_AUTO_TITLE="true"
+DISABLE_UNTRACKED_FILES_DIRTY="true"
 
-autoload -U colors compinit
-colors
-compinit
+plugins=(git)
 
-bindkey -v
-bindkey '^P' up-history
-bindkey '^N' down-history
-bindkey '^?' backward-delete-char
-bindkey '^h' backward-delete-char
-bindkey '^w' backward-kill-word
-bindkey '^r' history-incremental-search-backward
+source $ZSH/oh-my-zsh.sh
 
-PROMPT="%{$fg[blue]%} %% %{$reset_color%}"
-
-function zle-line-init zle-keymap-select {
-  VIM_PROMPT="%{$fg_bold[yellow]%} [% NORMAL]%  %{$reset_color%}"
-  RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $EPS1"
-  zle reset-prompt
-}
-
-zle -N zle-line-init
-zle -N zle-keymap-select
-
-alias ..='cd .. && pwd'
-alias ...='cd ../.. && pwd'
-alias ....='cd ../../.. && pwd'
-alias ls='ls -G'
-alias ll='ls -alF'
-alias la='ls -A'
 alias l='ls -CF'
+alias la='ls -A'
+alias ll='ls -alF'
 alias v='mvim --remote-silent'
 
-PATH=${HOME}/bin:${PATH}
-EDITOR=vim
+export PATH=$HOME/bin:$PATH
+export EDITOR=vim
 
 # Creates an alias that changes to the current directory.
 bm() {
