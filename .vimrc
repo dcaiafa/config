@@ -51,6 +51,12 @@ function! s:ToggleHeader()
       let path = findfile(expand("%:t:r") . ".cc")
       if path == ""
         let path = findfile(expand("%:t:r") . ".cpp")
+        if path == ""
+          let path = findfile(expand("%:t:r") . ".m")
+          if path == ""
+            let path = findfile(expand("%:t:r") . ".mm")
+          endif
+        endif
       endif
     endif
   else

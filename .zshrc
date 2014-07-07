@@ -14,6 +14,7 @@ alias l='ls -CF'
 alias la='ls -A'
 alias ll='ls -alF'
 alias v='mvim --remote-silent'
+alias s='printf "$fg[red]"; repeat $(tput cols) printf "#"; printf $reset_color; print'
 
 export PATH=$HOME/bin:$PATH
 export EDITOR=vim
