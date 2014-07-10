@@ -27,3 +27,7 @@ bm() {
   fi
   alias cd$1="cd `pwd`"
 }
+
+grepcc() {
+  grep -r --include=\*.cc --include=\*.h --include=\*.mm --include=\*.m $1 *
+}
