@@ -31,3 +31,7 @@ bm() {
 grepcc() {
   grep -r --include=\*.cc --include=\*.h --include=\*.mm --include=\*.m $1 *
 }
+
+if [[ -f ~/.local_zshrc ]]; then
+  source ~/.local_zshrc
+fi
