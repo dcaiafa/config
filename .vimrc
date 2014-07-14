@@ -94,8 +94,12 @@ endfunction
 
 command! Setup :call <SID>Setup()
 
-command! -nargs=1 S let @/=escape('<args>', './\')
-vnoremap S y:S <C-R>"<CR>
+function! s:ExactSearch()
+  let @/=escape(@", './\*$^')
+endfunction
+
+command! S :call <SID>ExactSearch()
+vnoremap S y:S<CR>
 
 cabbrev <expr> %% expand("%:p:h")
 
