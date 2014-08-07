@@ -13,8 +13,21 @@ source $ZSH/oh-my-zsh.sh
 alias l='ls -CF'
 alias la='ls -A'
 alias ll='ls -alF'
-alias v='mvim --remote-silent'
-alias s='printf "$fg[red]"; repeat $(tput cols) printf "#"; printf $reset_color; print'
+alias 1='cd ..'
+alias 2='cd ../..'
+alias 3='cd ../../..'
+alias 4='cd ../../../..'
+alias 5='cd ../../../../..'
+alias 6='cd ../../../../../..'
+alias 7='cd ../../../../../../..'
+alias 8='cd ../../../../../../../..'
+alias 9='cd ../../../../../../../../..'
+
+if [[ "$OSTYPE" == "linux-gnu" ]]; then
+  alias v='gvim --remote-silent'
+elif [[ "$OSTYPE" == "darwin"* ]]; then
+  alias v='mvim --remote-silent'
+fi
 
 export PATH=$HOME/bin:$PATH
 export EDITOR=vim
@@ -28,8 +41,8 @@ bm() {
   alias cd$1="cd `pwd`"
 }
 
-grepcc() {
-  grep -r --include=\*.cc --include=\*.h --include=\*.mm --include=\*.m $1 *
+# Disable some oh-my-zsh's git functionality for dramatic performance improvement.
+git_prompt_status() {
 }
 
 if [[ -f ~/.local_zshrc ]]; then
