@@ -28,6 +28,7 @@ if [[ "$OSTYPE" == "linux-gnu" ]]; then
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   alias v='mvim --remote-silent'
 fi
+alias s='printf "$fg[red]"; repeat $(tput cols) printf "#"; printf $reset_color; print'
 
 export PATH=$HOME/bin:$PATH
 export EDITOR=vim
@@ -45,6 +46,10 @@ bm() {
 git_prompt_status() {
 }
 parse_git_dirty() {
+}
+
+grepcc() {
+  grep -r --include=\*.cc --include=\*.h --include=\*.mm --include=\*.m $1 *
 }
 
 if [[ -f ~/.local_zshrc ]]; then
