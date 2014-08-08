@@ -44,6 +44,8 @@ bm() {
 # Disable some oh-my-zsh's git functionality for dramatic performance improvement.
 git_prompt_status() {
 }
+parse_git_dirty() {
+}
 
 if [[ -f ~/.local_zshrc ]]; then
   source ~/.local_zshrc
