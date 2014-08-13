@@ -1,3 +1,7 @@
+if filereadable('/usr/share/vim/google/google.vim')
+  source /usr/share/vim/google/google.vim
+endif
+
 set autoread
 set backspace=indent,eol,start
 set cino=l1g1h1N-si2s(0W2sj1J1+2s
@@ -19,6 +23,7 @@ set nowritebackup
 set path=.
 set number
 set relativenumber
+set number
 set ruler
 set shiftwidth=2
 set smartindent
@@ -29,14 +34,24 @@ set tags=./localtags,./tags,./../tags,./../../tags,./../../../tags,./../../../..
 set textwidth=80
 set virtualedit=all
 set wrap
+set wildmenu
+set wildignore=*.swp,*.bak,*.pyc,*.class
+set wildmode=list:longest,full
+set scrolloff=20
 
 syntax on
 set background=light
 color solarized
 
-if has("gui_running")
-  set guifont=Menlo\ Regular:h12
+if has("unix")
+  let s:uname = system("uname -s")
+  if s:uname == "darwin"
+    if has("gui_running")
+      set guifont=Menlo\ Regular:h12
+    endif
+  endif
 endif
+
 
 filetype plugin indent on
 
