@@ -39,15 +39,19 @@ set wildignore=*.swp,*.bak,*.pyc,*.class
 set wildmode=list:longest,full
 set scrolloff=20
 
+" Disable beeping
+set noerrorbells visualbell t_vb=
+autocmd GUIEnter * set visualbell t_vb=
+
 syntax on
 set background=light
 color solarized
 
 if has("unix")
   let s:uname = system("uname -s")
-  if s:uname == "darwin"
+  if s:uname =~ "^darwin"
     if has("gui_running")
-      set guifont=Menlo\ Regular:h12
+      set guifont=Monaco:h13
     endif
   endif
 endif
@@ -116,14 +120,15 @@ function! s:ExactSearch()
 endfunction
 
 command! S :call <SID>ExactSearch()
-vnoremap S y:S<CR>
+
+command! -nargs=+ F vim/\C<args>/ **/*.c **/*.cc **/*.h **/*.m **/*.mm | copen
 
 cabbrev <expr> %% expand("%:p:h")
 
 " Auto commands
 augroup Daniel
   au!
-  " au BufReadPost,FileChangedRO * let &modifiable=!(&readonly)
+  au BufWritePost,FileWritePost * %s/\s\+$//ge
 augroup END
 
 " Keyboard shortcuts
@@ -138,8 +143,6 @@ noremap <C-DOWN> :copen\|cnext<CR>
 vnoremap <C-C> "+y
 noremap <C-V> "+P
 noremap! <C-V> <C-R>+
-" noremap <C-K> :pyf /usr/lib/clang-format/clang-format.py<CR>
-" inoremap <C-K><C-O> :pyf /usr/lib/clang-format/clang-format.py<CR>
 
 noremap ,h :nohlsearch<CR>
 noremap ,t :ToggleHeader<CR>
