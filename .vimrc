@@ -94,6 +94,8 @@ endfunction
 
 command! Setup :call <SID>Setup()
 
+command! Noindent :setl noai nocin nosi inde=<CR>
+
 function! s:ExactSearch()
   let @/=escape(@", './\*$^')
 endfunction
