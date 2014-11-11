@@ -1,15 +1,17 @@
-export ZSH=$HOME/.oh-my-zsh
+autoload -U colors && colors
+autoload -U compinit && compinit
 
-ZSH_THEME="avit"
-DISABLE_AUTO_UPDATE="true"
-DISABLE_AUTO_TITLE="true"
-DISABLE_UNTRACKED_FILES_DIRTY="true"
-ZSH_CUSTOM=$HOME/config/oh-my-zsh/custom
+# Emacs mode
+bindkey -e
 
-plugins=(git)
+zstyle ':completion:*' menu select
+zstyle ':completion:*' accept-exact '*(N)'
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
 
-source $ZSH/oh-my-zsh.sh
+PROMPT="%{$fg[blue]%} %% %{$reset_color%}"
 
+alias ls='ls --color'
 alias l='ls -CF'
 alias la='ls -A'
 alias ll='ls -alF'
@@ -32,6 +34,9 @@ alias s='printf "$fg[red]"; repeat $(tput cols) printf "#"; printf $reset_color;
 
 export PATH=$HOME/bin:$PATH
 export EDITOR=vim
+export LSCOLORS="exfxcxdxbxegedabagacad"
+export LS_COLORS='di=00;34:ln=00;35:so=00;32:pi=00;33:ex=00;31'
+export GREP_COLOR='1;33'
 
 # Creates an alias that changes to the current directory.
 bm() {
@@ -40,12 +45,6 @@ bm() {
     return 0
   fi
   alias cd$1="cd `pwd`"
-}
-
-# Disable some oh-my-zsh's git functionality for dramatic performance improvement.
-git_prompt_status() {
-}
-parse_git_dirty() {
 }
 
 grepcc() {
