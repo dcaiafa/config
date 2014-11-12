@@ -118,7 +118,9 @@ endfunction
 command! S :call <SID>ExactSearch()
 vnoremap S y:S<CR>
 
-function! InsertHeaderGuard()
+command! SetSourceRoot :let g:SourceRoot=getcwd()
+
+function! s:InsertHeaderGuard()
   let path = expand("%:p")
   let components = []
   while !empty(path) && path != g:SourceRoot
@@ -147,6 +149,8 @@ function! InsertHeaderGuard()
   call append(l+1, "#define " . guard)
   call append(l+2, "#endif  // " . guard)
 endfunction
+
+command! InsertHeaderGuard :call <SID>InsertHeaderGuard()
 
 cabbrev <expr> %% expand("%:p:h")
 
