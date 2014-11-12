@@ -118,6 +118,36 @@ endfunction
 command! S :call <SID>ExactSearch()
 vnoremap S y:S<CR>
 
+function! InsertHeaderGuard()
+  let path = expand("%:p")
+  let components = []
+  while !empty(path) && path != g:SourceRoot
+    let component = fnamemodify(path, ":t")
+    let component = substitute(component, "\\.", "_", "g")
+    call add(components, component)
+    let newpath = fnamemodify(path, ":h")
+    if newpath == path
+      break
+    endif
+    let path = newpath
+  endwhile
+  call reverse(components)
+
+  let guard = ""
+  for component in components
+    if !empty(guard)
+      let guard .= "_"
+    endif
+    let guard .= toupper(component)
+  endfor
+  let guard .= "_"
+
+  let l = line(".")
+  call append(l+0, "#ifndef " . guard)
+  call append(l+1, "#define " . guard)
+  call append(l+2, "#endif  // " . guard)
+endfunction
+
 cabbrev <expr> %% expand("%:p:h")
 
 " Auto commands

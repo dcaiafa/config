@@ -9,6 +9,11 @@ zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
 
+# Enable C-X C-E to edit command line in editor
+autoload -z edit-command-line
+zle -N edit-command-line
+bindkey "^X^E" edit-command-line
+
 PROMPT="%{$fg[blue]%} %% %{$reset_color%}"
 
 alias ls='ls --color'
