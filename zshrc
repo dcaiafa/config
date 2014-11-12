@@ -1,21 +1,34 @@
-autoload -U colors && colors
-autoload -U compinit && compinit
-
 # Emacs mode
 bindkey -e
 
+# Configure word completion
+autoload -U compinit && compinit
 zstyle ':completion:*' menu select
-zstyle ':completion:*' accept-exact '*(N)'
+# zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
+
+# Configure command history
+export HISTSIZE=2000
+export HISTFILE="$HOME/.zsh_history"
+export SAVEHIST=$HISTSIZE
+setopt hist_ignore_space
+
+# Configure colors
+autoload -U colors && colors
+export LSCOLORS="exfxcxdxbxegedabagacad"
+export LS_COLORS='di=00;34:ln=00;35:so=00;32:pi=00;33:ex=00;31'
+export GREP_COLOR='1;33'
+
+# Configure prompt
+PROMPT="%{$fg[blue]%} %% %{$reset_color%}"
 
 # Enable C-X C-E to edit command line in editor
 autoload -z edit-command-line
 zle -N edit-command-line
 bindkey "^X^E" edit-command-line
 
-PROMPT="%{$fg[blue]%} %% %{$reset_color%}"
-
+# Aliases
 alias l='ls -CF'
 alias la='ls -A'
 alias ll='ls -alF'
@@ -38,11 +51,9 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
 fi
 alias s='printf "$fg[red]"; repeat $(tput cols) printf "#"; printf $reset_color; print'
 
+# Environment variables
 export PATH=$HOME/bin:$PATH
 export EDITOR=vim
-export LSCOLORS="exfxcxdxbxegedabagacad"
-export LS_COLORS='di=00;34:ln=00;35:so=00;32:pi=00;33:ex=00;31'
-export GREP_COLOR='1;33'
 
 # Creates an alias that changes to the current directory.
 bm() {
