@@ -16,7 +16,6 @@ bindkey "^X^E" edit-command-line
 
 PROMPT="%{$fg[blue]%} %% %{$reset_color%}"
 
-alias ls='ls --color'
 alias l='ls -CF'
 alias la='ls -A'
 alias ll='ls -alF'
@@ -31,8 +30,10 @@ alias 8='cd ../../../../../../../..'
 alias 9='cd ../../../../../../../../..'
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
+  alias ls='ls --color'
   alias v='gvim --remote-silent'
 elif [[ "$OSTYPE" == "darwin"* ]]; then
+  export CLICOLOR=1
   alias v='mvim --remote-silent'
 fi
 alias s='printf "$fg[red]"; repeat $(tput cols) printf "#"; printf $reset_color; print'
