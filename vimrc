@@ -2,6 +2,7 @@ if filereadable('/usr/share/vim/google/google.vim')
   source /usr/share/vim/google/google.vim
 endif
 
+set runtimepath+=~/config/vim
 set autoread
 set backspace=indent,eol,start
 set cino=l1g1h1N-si2s(0W2sj1J1+2s
@@ -45,13 +46,12 @@ color solarized
 
 if has("unix")
   let s:uname = system("uname -s")
-  if s:uname == "darwin"
+  if s:uname =~? "darwin"
     if has("gui_running")
       set guifont=Menlo\ Regular:h12
     endif
   endif
 endif
-
 
 filetype plugin indent on
 
