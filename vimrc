@@ -48,7 +48,7 @@ if has("unix")
   let s:uname = system("uname -s")
   if s:uname =~? "darwin"
     if has("gui_running")
-      set guifont=Menlo\ Regular:h12
+      set guifont=Menlo\ Regular:h14
     endif
   endif
 endif

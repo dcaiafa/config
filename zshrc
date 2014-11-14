@@ -22,6 +22,7 @@ export GREP_COLOR='1;33'
 
 # Configure prompt
 PROMPT="%{$fg[blue]%} %% %{$reset_color%}"
+RPROMPT="%{$fg[blue]%} %4d %{$reset_color%}"
 
 # Enable C-X C-E to edit command line in editor
 autoload -z edit-command-line
