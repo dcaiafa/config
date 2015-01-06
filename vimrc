@@ -38,7 +38,7 @@ set wrap
 set wildmenu
 set wildignore=*.swp,*.bak,*.pyc,*.class
 set wildmode=list:longest,full
-set scrolloff=20
+set scrolloff=5
 
 syntax on
 set background=light
@@ -52,6 +52,8 @@ if has("unix")
     endif
   endif
 endif
+
+execute pathogen#infect()
 
 filetype plugin indent on
 
