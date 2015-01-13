@@ -44,6 +44,12 @@ syntax on
 set background=light
 color solarized
 
+if !has("gui_running")
+  hi Normal ctermbg=none
+  hi NonText ctermbg=none
+  hi LineNR ctermbg=none
+endif
+
 if has("unix")
   let s:uname = system("uname -s")
   if s:uname =~? "darwin"
