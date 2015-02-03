@@ -51,6 +51,7 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
   alias v='mvim --remote-silent'
 fi
 alias s='printf "$fg[red]"; repeat $(tput cols) printf "#"; printf $reset_color; print'
+alias n='notify-send "done"'
 
 # Environment variables
 export PATH=$HOME/bin:$PATH
