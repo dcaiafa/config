@@ -41,13 +41,15 @@ set wildmode=list:longest,full
 set scrolloff=5
 
 syntax on
-set background=light
-color solarized
 
-if !has("gui_running")
-  hi Normal ctermbg=none
-  hi NonText ctermbg=none
-  hi LineNR ctermbg=none
+if has("gui_running")
+  set background=light
+  color solarized
+else
+  color torte
+  "hi Normal ctermbg=none
+  "hi NonText ctermbg=none
+  "hi LineNR ctermbg=none
 endif
 
 if has("unix")
