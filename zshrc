@@ -43,12 +43,14 @@ alias 9='cd ../../../../../../../../..'
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
   alias ls='ls --color'
   alias v='gvim --remote-silent'
+  alias n='notify-send "done"'
 elif [[ "$OSTYPE" == "darwin"* ]]; then
   export CLICOLOR=1
   alias v='mvim --remote-silent'
+  alias n="osascript -e \"display notification \\\"Done\\\" with title \\\"Done\\\"\""
 fi
-alias s='printf "$fg[red]"; repeat 3 { repeat $(tput cols) { printf "#" }; print}; printf $reset_color; print'
-alias n='notify-send "done"'
+
+alias s='printf "$fg[red]"; repeat $(tput cols) printf "#"; printf $reset_color; print'
 
 # Environment variables
 export PATH=$HOME/bin:$PATH

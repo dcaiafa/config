@@ -39,6 +39,8 @@ set wildmenu
 set wildignore=*.swp,*.bak,*.pyc,*.class
 set wildmode=list:longest,full
 set scrolloff=5
+set showmatch
+set completeopt=menuone
 
 syntax on
 
@@ -97,6 +99,7 @@ command! ToggleHeader :call <SID>ToggleHeader()
 function! s:PrintName()
   let name = expand("%:p")
   let @+ = name
+  let @a = name
   echo name
 endfunction
 
