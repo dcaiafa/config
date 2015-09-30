@@ -165,6 +165,17 @@ endfunction
 
 command! InsertHeaderGuard :call <SID>InsertHeaderGuard()
 
+function! s:SetupText()
+  set formatoptions=
+  noremap j gj
+  noremap k gk
+  set wrap
+  set linebreak
+  set norelativenumber
+endfunction
+
+command! SetupText :call <SID>SetupText()
+
 cabbrev <expr> %% expand("%:p:h")
 
 " Auto commands
@@ -185,8 +196,6 @@ noremap <C-DOWN> :copen\|cnext<CR>
 vnoremap <C-C> "+y
 noremap <C-V> "+P
 noremap! <C-V> <C-R>+
-" noremap <C-K> :pyf /usr/lib/clang-format/clang-format.py<CR>
-" inoremap <C-K><C-O> :pyf /usr/lib/clang-format/clang-format.py<CR>
 
 noremap ,h :nohlsearch<CR>
 noremap ,t :ToggleHeader<CR>
