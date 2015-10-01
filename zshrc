@@ -53,8 +53,8 @@ fi
 alias s='printf "$fg[red]"; repeat $(tput cols) printf "#"; printf $reset_color; print'
 
 # Environment variables
-export PATH=$HOME/bin:$PATH
-export EDITOR=vim
+export PATH=$HOME/config/bin:$PATH
+export EDITOR=$HOME/config/bin/nved
 
 # Creates an alias that changes to the current directory.
 bm() {

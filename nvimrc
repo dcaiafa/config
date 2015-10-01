@@ -9,6 +9,9 @@ set ruler
 set showmatch
 set smartcase
 set virtualedit=all
+set expandtab
+set tabstop=2
+set shiftwidth=0
 
 if has('nvim')
   set ttimeout
@@ -23,12 +26,11 @@ filetype plugin indent on
 call plug#begin('~/.nvim/plugged')
 
 Plug 'jlanzarotta/bufexplorer'
-Plug 'junegunn/seoul256.vim'
 Plug 'tpope/vim-fugitive'
 
 call plug#end()
 
-color seoul256
+color desert
 
 command! Cdf :execute "cd " . expand("%:p:h")
 
@@ -42,6 +44,7 @@ noremap <C-L> <C-W><C-L>
 noremap <TAB> :b#<CR>
 noremap ,h :nohlsearch<CR>
 noremap ,s :set spell!<CR>
+noremap ,w :wq<CR>
 
 tnoremap <Esc> <C-\><C-n>
 tnoremap <C-h> <C-\><C-n><C-w>h
