@@ -12,6 +12,7 @@ set virtualedit=all
 set expandtab
 set tabstop=2
 set shiftwidth=0
+set completeopt=menu,preview,menuone
 
 if has('nvim')
   set ttimeout
@@ -25,7 +26,9 @@ filetype plugin indent on
 
 call plug#begin('~/.nvim/plugged')
 
+Plug 'fatih/vim-go'
 Plug 'jlanzarotta/bufexplorer'
+Plug 'nsf/gocode', { 'rtp': 'vim' }
 Plug 'tpope/vim-fugitive'
 
 call plug#end()
@@ -45,9 +48,13 @@ noremap <TAB> :b#<CR>
 noremap ,h :nohlsearch<CR>
 noremap ,s :set spell!<CR>
 noremap ,w :wq<CR>
+noremap ,th :tabprev<CR>
+noremap ,tl :tabnext<CR>
 
 tnoremap <Esc> <C-\><C-n>
 tnoremap <C-h> <C-\><C-n><C-w>h
 tnoremap <C-j> <C-\><C-n><C-w>j
 tnoremap <C-k> <C-\><C-n><C-w>k
 tnoremap <C-l> <C-\><C-n><C-w>l
+
+cabbrev <expr> %% expand("%:p:h")
