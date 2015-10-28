@@ -22,6 +22,7 @@ def normalizePath(name):
 def openFiles():
     # To escape terminal mode. Not sure if bug.
     nvim.feedkeys('', "n")
+    nvim.command("wincmd w")
     for x in args:
         nvim.command("drop {}".format(normalizePath(x)))
 
