@@ -61,6 +61,8 @@ if has("unix")
       set guifont=Menlo\ Regular:h14
     endif
   endif
+elseif has("windows")
+  set guifont=Consolas:h11:cANSI
 endif
 
 execute pathogen#infect()
