@@ -84,6 +84,9 @@ function! s:ToggleHeader()
           let path = findfile(expand("%:t:r") . ".m")
           if path == ""
             let path = findfile(expand("%:t:r") . ".mm")
+            if path == ""
+              let path = findfile(expand("%:t:r") . ".inl")
+            endif
           endif
         endif
       endif
