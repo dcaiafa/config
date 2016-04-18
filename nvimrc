@@ -7,7 +7,6 @@ set completeopt=menu,preview,menuone
 set expandtab
 set formatoptions=tcqwa
 set guioptions=ac
-set autochdir
 set hidden
 set hlsearch
 set ignorecase
