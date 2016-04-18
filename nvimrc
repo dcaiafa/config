@@ -44,7 +44,7 @@ if has('nvim')
 endif
 if has("gui_running")
   if has('windows')
-    set guifont=Consolas:h11:cANSI
+    set guifont=Consolas:h10:cANSI
   endif
 endif
 
@@ -67,10 +67,10 @@ color morning
 
 let g:bufExplorerDefaultHelp=0
 
-noremap <C-H> <C-W><C-H>
-noremap <C-J> <C-W><C-J>
-noremap <C-K> <C-W><C-K>
-noremap <C-L> <C-W><C-L>
+noremap <C-H> <C-W>h
+noremap <C-J> <C-W>j
+noremap <C-K> <C-W>k
+noremap <C-L> <C-W>l
 
 noremap <S-Up> :lprev<CR>
 noremap <S-Down> :lnext<CR>
