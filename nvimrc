@@ -2,7 +2,7 @@ set runtimepath+=~/config/nvim
 
 set autoread
 set backspace=indent,eol,start
-set colorcolumn=+0
+"set colorcolumn=+0
 set completeopt=menu,preview,menuone
 set expandtab
 set formatoptions=tcqwa
@@ -73,11 +73,7 @@ Plug 'hashivim/vim-terraform'
 
 call plug#end()
 
-if has("gui_running")
-    color molokai
-else
-    color morning
-endif
+color molokai
 
 let g:bufExplorerDefaultHelp=0
 
