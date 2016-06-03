@@ -32,6 +32,9 @@ set wildmenu
 set wildmode=longest:full,full
 set wrap
 
+" Swap files are really annoying. Save often.
+set noswapfile 
+
 " Disable beeps
 set vb t_vb=
 
@@ -41,11 +44,16 @@ if has('nvim')
   set ttimeout
   set ttimeoutlen=0
 endif
-if has("gui_running")
-  if has('windows')
-    set guifont=Consolas:h10:cANSI
+
+if has("gui_running") && has('windows')
+  set guifont=Consolas:h12:cANSI
+
+  " Maximize windows on start-up if in diff mode.
+  if &diff
+    au GUIEnter * simalt ~x  
   endif
 endif
+
 
 set t_co=256
 
@@ -55,14 +63,21 @@ filetype plugin indent on
 call plug#begin('~/.nvim/plugged')
 
 Plug 'fatih/vim-go'
+Plug 'fatih/molokai'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'ctrlpvim/ctrlp.vim'
 Plug 'nsf/gocode', { 'rtp': 'vim' }
 Plug 'tpope/vim-fugitive'
+Plug 'ekalinin/Dockerfile.vim'
+Plug 'hashivim/vim-terraform'
 
 call plug#end()
 
-color morning
+if has("gui_running")
+    color molokai
+else
+    color morning
+endif
 
 let g:bufExplorerDefaultHelp=0
 
@@ -71,8 +86,8 @@ noremap <C-J> <C-W>j
 noremap <C-K> <C-W>k
 noremap <C-L> <C-W>l
 
-noremap <S-Up> :lprev<CR>
-noremap <S-Down> :lnext<CR>
+noremap <S-Up> :cprev<CR>
+noremap <S-Down> :cnext<CR>
 
 noremap <TAB> :b#<CR>
 noremap ,s :nohlsearch<CR>
@@ -91,6 +106,7 @@ au FileType go nmap ,gr :wall<CR><Plug>(go-rename)
 au FileType go nmap ,gi :wall<CR>:GoImports<CR>
 au FileType go nmap ,ga :wall<CR>:GoAlternate<CR>
 au FileType go nmap ,gd :wall<CR>:GoDeclsDir<CR>
+au FileType go nmap ,go :wall<CR>:GoDoc<CR>
 
 if has('nvim')
   tnoremap <Esc> <C-\><C-n>
@@ -139,14 +155,16 @@ augroup Daniel
   au! Daniel
 augroup END
 
-" Terminal settings
-function! s:SetupTerminal()
-  au Daniel BufEnter <buffer> call <SID>OnEnterTerminal()
-endfunction
-au TermOpen * call <SID>SetupTerminal()
+if has('nvim')
+    " Terminal settings
+    function! s:SetupTerminal()
+      au Daniel BufEnter <buffer> call <SID>OnEnterTerminal()
+    endfunction
+    au TermOpen * call <SID>SetupTerminal()
 
-function! s:OnEnterTerminal()
-  if !&insertmode
-    normal i
-  endif
-endfunction
+    function! s:OnEnterTerminal()
+      if !&insertmode
+        normal i
+      endif
+    endfunction
+endif
