@@ -70,7 +70,7 @@ execute pathogen#infect()
 filetype plugin indent on
 
 " Commands
-command! Cdf :execute "cd " . expand("%:p:h")
+command! Cdf :execute "cd " . expand("%:p:h") | execute "tcd " . expand("%:p:h")
 
 function! s:ToggleHeader()
   let currentExtension = expand("%:e")

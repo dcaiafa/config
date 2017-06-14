@@ -24,19 +24,25 @@ set showmatch
 set smartcase
 set smartindent
 set tabstop=2
-set tags=./localtags,./tags,./../tags,./../../tags,./../../../tags,./../../../../tags,./../../../../../tags,./../../../../../../tags,./../../../../../../../tags,./../../../../../../../../tags,./../../../../../../../../../tags,./../../../../../../../../../../tags
+set tags=./.localtags,./.tags,./../.tags,./../../.tags,./../../../.tags,./../../../../.tags,./../../../../../.tags,./../../../../../../.tags,./../../../../../../../.tags,./../../../../../../../../.tags,./../../../../../../../../../.tags,./../../../../../../../../../../.tags
 set textwidth=80
 set virtualedit=all
 set wildignore=*.swp,*.bak,*.pyc,*.class
 set wildmenu
 set wildmode=longest:full,full
 set wrap
+set background=dark
+
+set wildignore+=*/node_modules/*
+set wildignore+=*/vendor/*
 
 " Swap files are annoying. Save often.
 set noswapfile 
 
 " Disable beeps
 set vb t_vb=
+
+let mapleader = '\'
 
 let g:go_textobj_include_function_doc = 1
 
@@ -68,16 +74,18 @@ if has("gui_running") && has('windows')
 
   " Maximize windows on start-up if in diff mode.
   if &diff
-    au GUIEnter * simalt ~x  
+    au Daniel GUIEnter * simalt ~x  
   endif
 endif
 
 syntax on
 filetype plugin indent on
 
+let g:bufExplorerDefaultHelp=0
+
 call plug#begin('~/.nvim/plugged')
 
-Plug 'fatih/vim-go', { 'tag': 'v1.9' }
+Plug 'fatih/vim-go', { 'tag': 'v1.12' }
 Plug 'fatih/molokai'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -86,14 +94,11 @@ Plug 'tpope/vim-fugitive'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'hashivim/vim-terraform'
 Plug 'leafgarland/typescript-vim'
-Plug 'frankier/neovim-colors-solarized-truecolor-only'
 
 call plug#end()
 
-"color molokai
-color solarized
-
-let g:bufExplorerDefaultHelp=0
+color molokai
+"color solarized
 
 noremap <C-H> <C-W>h
 noremap <C-J> <C-W>j
@@ -127,7 +132,8 @@ inoremap <F9> <ESC>:call <SID>ToggleBackground()<CR>
 inoremap <F10> :BufExplorer<CR>
 
 au FileType go nmap ,b :wall<CR><Plug>(go-build)
-au FileType go nmap ,gt :wall<CR><Plug>(go-test)
+au FileType go nmap ,gtt :wall<CR><Plug>(go-test)
+au FileType go nmap ,gtf :wall<CR><Plug>(go-test-func)
 au FileType go nmap ,gr :wall<CR><Plug>(go-rename)
 au FileType go nmap ,gi :wall<CR>:GoImports<CR>
 au FileType go nmap ,ga :wall<CR>:GoAlternate<CR>
@@ -199,7 +205,7 @@ func! s:ToggleBackground()
   endif
 endfunction
 
-command! Cdf :execute "cd " . expand("%:p:h")
+command! Cdf :execute "cd " . expand("%:p:h") | execute "tcd " . expand("%:p:h") 
 command! ToggleHeader :call <SID>ToggleHeader()
 command! SetupText :call <SID>SetupText()
 
@@ -211,8 +217,10 @@ if has('nvim')
     " Terminal settings
     function! s:SetupTerminal()
       au Daniel BufEnter <buffer> call <SID>OnEnterTerminal()
+      setlocal relativenumber
     endfunction
-    au TermOpen * call <SID>SetupTerminal()
+
+    au Daniel TermOpen * call <SID>SetupTerminal()
 
     function! s:OnEnterTerminal()
       if !&insertmode

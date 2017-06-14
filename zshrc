@@ -53,6 +53,7 @@ alias s='printf "$fg[red]"; repeat $(tput cols) printf "#"; printf $reset_color;
 # Environment variables
 export PATH=$HOME/config/bin:$PATH
 export EDITOR=$HOME/config/bin/nved
+export KUBE_EDITOR=$EDITOR
 
 # Creates an alias that changes to the current directory.
 bm() {
