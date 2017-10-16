@@ -19,7 +19,7 @@ set number
 set relativenumber
 set ruler
 set scrolloff=3
-set shiftwidth=0
+set shiftwidth=2
 set showmatch
 set smartcase
 set smartindent
@@ -32,9 +32,11 @@ set wildmenu
 set wildmode=longest:full,full
 set wrap
 set background=dark
+set foldmethod=syntax
+set foldlevelstart=99
+set cino=l1,g1,h1,N-s,i2s,+2s,(0,u0,U1,W4,m1,:0
 
-set wildignore+=*/node_modules/*
-set wildignore+=*/vendor/*
+let g:ctrlp_custom_ignore = '\vvendor\/|third_party\/'
 
 " Swap files are annoying. Save often.
 set noswapfile 
@@ -45,6 +47,9 @@ set vb t_vb=
 let mapleader = '\'
 
 let g:go_textobj_include_function_doc = 1
+
+" Prevent vim-go plugin from "auto-detecting" the wrong GOPATH.
+let g:go_autodetect_gopath = 0
 
 if has('nvim')
 	set termguicolors
@@ -85,7 +90,7 @@ let g:bufExplorerDefaultHelp=0
 
 call plug#begin('~/.nvim/plugged')
 
-Plug 'fatih/vim-go', { 'tag': 'v1.12' }
+Plug 'fatih/vim-go', { 'tag': 'v1.14' }
 Plug 'fatih/molokai'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'ctrlpvim/ctrlp.vim'
@@ -121,14 +126,12 @@ noremap <F2> :call <SID>OpenTerminal(1)<CR>
 noremap <F3> :call <SID>OpenTerminal(2)<CR>
 noremap <F4> :call <SID>OpenTerminal(3)<CR>
 noremap <F5> :call <SID>OpenTerminal(4)<CR>
-noremap <F9> :call <SID>ToggleBackground()<CR>
 noremap <F10> :BufExplorer<CR>
 
 inoremap <F2> <ESC>:call <SID>OpenTerminal(1)<CR>
 inoremap <F3> <ESC>:call <SID>OpenTerminal(2)<CR>
 inoremap <F4> <ESC>:call <SID>OpenTerminal(3)<CR>
 inoremap <F5> <ESC>:call <SID>OpenTerminal(4)<CR>
-inoremap <F9> <ESC>:call <SID>ToggleBackground()<CR>
 inoremap <F10> :BufExplorer<CR>
 
 au FileType go nmap ,b :wall<CR><Plug>(go-build)
@@ -155,7 +158,6 @@ if has('nvim')
   tnoremap <F3> <C-\><C-n>:call <SID>OpenTerminal(2)<CR>
   tnoremap <F4> <C-\><C-n>:call <SID>OpenTerminal(3)<CR>
   tnoremap <F5> <C-\><C-n>:call <SID>OpenTerminal(4)<CR>
-  tnoremap <F9> <C-\><C-n>:call <SID>ToggleBackground()<CR>
   tnoremap <F10> <C-\><C-n>:BufExplorer<CR>
 endif
 
@@ -197,15 +199,7 @@ function! s:SetupText()
   set norelativenumber
 endfunction
 
-func! s:ToggleBackground()
-  if &background == "dark"
-    set background=light
-  else
-    set background=dark
-  endif
-endfunction
-
-command! Cdf :execute "cd " . expand("%:p:h") | execute "tcd " . expand("%:p:h") 
+command! Cdf :execute "cd " . expand("%:p:h")
 command! ToggleHeader :call <SID>ToggleHeader()
 command! SetupText :call <SID>SetupText()
 
@@ -228,3 +222,94 @@ if has('nvim')
       endif
     endfunction
 endif
+
+"=====================================================
+"===================== STATUSLINE ====================
+"Copied from https://github.com/fatih/dotfiles/blob/master/vimrc
+
+let s:modes = {
+      \ 'n': 'NORMAL', 
+      \ 'i': 'INSERT', 
+      \ 'R': 'REPLACE', 
+      \ 'v': 'VISUAL', 
+      \ 'V': 'V-LINE', 
+      \ "\<C-v>": 'V-BLOCK',
+      \ 'c': 'COMMAND',
+      \ 's': 'SELECT', 
+      \ 'S': 'S-LINE', 
+      \ "\<C-s>": 'S-BLOCK', 
+      \ 't': 'TERMINAL'
+      \}
+
+let s:prev_mode = ""
+function! StatusLineMode()
+  let cur_mode = get(s:modes, mode(), '')
+
+  " do not update higlight if the mode is the same
+  if cur_mode == s:prev_mode
+    return cur_mode
+  endif
+
+  if cur_mode == "NORMAL"
+    exe 'hi! StatusLine ctermfg=236'
+    exe 'hi! myModeColor cterm=bold ctermbg=148 ctermfg=22'
+  elseif cur_mode == "INSERT"
+    exe 'hi! myModeColor cterm=bold ctermbg=23 ctermfg=231'
+  elseif cur_mode == "VISUAL" || cur_mode == "V-LINE" || cur_mode == "V_BLOCK"
+    exe 'hi! StatusLine ctermfg=236'
+    exe 'hi! myModeColor cterm=bold ctermbg=208 ctermfg=88'
+  endif
+
+  let s:prev_mode = cur_mode
+  return cur_mode
+endfunction
+
+function! StatusLineFiletype()
+  return winwidth(0) > 70 ? (strlen(&filetype) ? &filetype : 'no ft') : ''
+endfunction
+
+function! StatusLinePercent()
+  return (100 * line('.') / line('$')) . '%'
+endfunction
+
+function! StatusLineLeftInfo()
+ let branch = fugitive#head()
+ let filename = '' != expand('%:t') ? expand('%:t') : '[No Name]'
+ if branch !=# ''
+   return printf("%s | %s", branch, filename)
+ endif
+ return filename
+endfunction
+
+function! StatusLineTime()
+  return strftime('%Y-%m-%d %T')
+endfunction
+
+exe 'hi! myInfoColor ctermbg=240 ctermfg=252'
+
+" start building our statusline
+set statusline=
+
+" mode with custom colors
+"set statusline+=%#myModeColor#
+set statusline+=%{StatusLineMode()}\ \|
+set statusline+=%*
+
+" left information bar (after mode)
+"set statusline+=%#myInfoColor#
+set statusline+=\ %{StatusLineLeftInfo()}
+set statusline+=\ %*
+
+" go command status (requires vim-go)
+set statusline+=%#goStatuslineColor#
+"set statusline+=%{go#statusline#Show()}
+set statusline+=%*
+
+" right section seperator
+set statusline+=%=
+
+" filetype, percentage, line number and column number
+"set statusline+=%#myInfoColor#
+set statusline+=\ %{StatusLineTime()}\ \|
+set statusline+=\ %{StatusLineFiletype()}\ \|\ %{StatusLinePercent()}\ %l:%v
+set statusline+=\ %*
