@@ -14,7 +14,6 @@ set incsearch
 set nocompatible
 set noequalalways
 set nowritebackup
-set nowritebackup
 set number
 set relativenumber
 set ruler
@@ -31,7 +30,6 @@ set wildignore=*.swp,*.bak,*.pyc,*.class
 set wildmenu
 set wildmode=longest:full,full
 set wrap
-set background=dark
 set foldmethod=syntax
 set foldlevelstart=99
 set cino=l1,g1,h1,N-s,i2s,+2s,(0,u0,U1,W4,m1,:0
@@ -99,9 +97,14 @@ Plug 'tpope/vim-fugitive'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'hashivim/vim-terraform'
 Plug 'leafgarland/typescript-vim'
+Plug 'rhysd/vim-clang-format'
 
 call plug#end()
 
+set t_Co=256
+let g:rehash256=1
+set background=dark
+let g:molokai_original=1
 color molokai
 "color solarized
 
@@ -142,6 +145,8 @@ au FileType go nmap ,gi :wall<CR>:GoImports<CR>
 au FileType go nmap ,ga :wall<CR>:GoAlternate<CR>
 au FileType go nmap ,gd :wall<CR>:GoDeclsDir<CR>
 au FileType go nmap ,go :wall<CR>:GoDoc<CR>
+
+au FileType c,cpp ClangFormatAutoEnable
 
 if has('nvim')
   tnoremap <ESC><ESC> <C-\><C-n>
@@ -227,7 +232,7 @@ endif
 "===================== STATUSLINE ====================
 "Copied from https://github.com/fatih/dotfiles/blob/master/vimrc
 
-let s:modes = {
+ let s:modes = {
       \ 'n': 'NORMAL', 
       \ 'i': 'INSERT', 
       \ 'R': 'REPLACE', 
@@ -251,8 +256,8 @@ function! StatusLineMode()
   endif
 
   if cur_mode == "NORMAL"
-    exe 'hi! StatusLine ctermfg=236'
-    exe 'hi! myModeColor cterm=bold ctermbg=148 ctermfg=22'
+    exe 'hi! StatusLine ctermfg=236 guifg=236 guibg=#3E3D32'
+    exe 'hi! myModeColor cterm=bold ctermbg=148 ctermfg=22 guibg=#FFE792 guifg=#000000 gui=bold'
   elseif cur_mode == "INSERT"
     exe 'hi! myModeColor cterm=bold ctermbg=23 ctermfg=231'
   elseif cur_mode == "VISUAL" || cur_mode == "V-LINE" || cur_mode == "V_BLOCK"
@@ -281,35 +286,30 @@ function! StatusLineLeftInfo()
  return filename
 endfunction
 
-function! StatusLineTime()
-  return strftime('%Y-%m-%d %T')
-endfunction
-
 exe 'hi! myInfoColor ctermbg=240 ctermfg=252'
 
 " start building our statusline
 set statusline=
 
 " mode with custom colors
-"set statusline+=%#myModeColor#
-set statusline+=%{StatusLineMode()}\ \|
+set statusline+=%#myModeColor#
+set statusline+=%{StatusLineMode()}               
 set statusline+=%*
 
 " left information bar (after mode)
-"set statusline+=%#myInfoColor#
+set statusline+=%#myInfoColor#
 set statusline+=\ %{StatusLineLeftInfo()}
 set statusline+=\ %*
 
 " go command status (requires vim-go)
 set statusline+=%#goStatuslineColor#
-"set statusline+=%{go#statusline#Show()}
+set statusline+=%{go#statusline#Show()}
 set statusline+=%*
 
 " right section seperator
 set statusline+=%=
 
 " filetype, percentage, line number and column number
-"set statusline+=%#myInfoColor#
-set statusline+=\ %{StatusLineTime()}\ \|
-set statusline+=\ %{StatusLineFiletype()}\ \|\ %{StatusLinePercent()}\ %l:%v
+set statusline+=%#myInfoColor#
+set statusline+=\ %{StatusLineFiletype()}\ %{StatusLinePercent()}\ %l:%v
 set statusline+=\ %*
