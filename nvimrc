@@ -92,7 +92,7 @@ Plug 'fatih/vim-go', { 'tag': 'v1.14' }
 Plug 'fatih/molokai'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'ctrlpvim/ctrlp.vim'
-Plug 'nsf/gocode', { 'rtp': 'vim' }
+"Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.nvim/plugged/gocode/vim/symlink.sh' }
 Plug 'tpope/vim-fugitive'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'hashivim/vim-terraform'
@@ -216,6 +216,7 @@ if has('nvim')
     " Terminal settings
     function! s:SetupTerminal()
       au Daniel BufEnter <buffer> call <SID>OnEnterTerminal()
+      setlocal nonumber
       setlocal relativenumber
     endfunction
 
