@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 """Compare two files in nvim"""
 import os
 import sys
@@ -23,7 +23,7 @@ def fullpath(*args):
     return _p.abspath(_p.normpath(_p.expanduser(_p.join(*args))))
     del _p
 
-def setup():
+def _setup():
     global termbuf
     nvim.input('<c-\\><c-n>')  # exit terminal mode
     nvim.command
@@ -47,7 +47,7 @@ def setup():
     nvim.command('setlocal bufhidden=wipe')
     nvim.command('wincmd w')
 
-def exit(*a, **kw):
+def _exit(*a, **kw):
     try:
         nvim.vars['file_to_edit1'] = None
         nvim.vars['file_to_edit2'] = None
@@ -60,7 +60,7 @@ def exit(*a, **kw):
         nvim.command('sb %s' % termbuf)
         nvim.command('set swb=' + (swb or ''))
         nvim.input('i')
-        nvim.session.stop()
+        nvim.stop_loop()
     except:
         import traceback
         traceback.print_exc()
@@ -69,4 +69,4 @@ def exit(*a, **kw):
         sys.exit(1)
 
 
-nvim.session.run(exit, exit, setup)
+nvim.run_loop(_exit, _exit, _setup)

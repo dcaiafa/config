@@ -88,25 +88,53 @@ let g:bufExplorerDefaultHelp=0
 
 call plug#begin('~/.nvim/plugged')
 
-Plug 'fatih/vim-go', { 'tag': 'v1.14' }
+Plug 'fatih/vim-go', { 'tag': 'v1.17' }
 Plug 'fatih/molokai'
 Plug 'jlanzarotta/bufexplorer'
 Plug 'ctrlpvim/ctrlp.vim'
-"Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.nvim/plugged/gocode/vim/symlink.sh' }
 Plug 'tpope/vim-fugitive'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'hashivim/vim-terraform'
 Plug 'leafgarland/typescript-vim'
 Plug 'rhysd/vim-clang-format'
+Plug 'posva/vim-vue'
+Plug 'digitaltoad/vim-pug'
+Plug 'ngg/vim-gn'
+if has('nvim')
+"  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+endif
+"Plug 'Shougo/neosnippet'
+"Plug 'Shougo/neosnippet-snippets'
 
 call plug#end()
+
+"let g:deoplete#enable_at_startup = 1
 
 set t_Co=256
 let g:rehash256=1
 set background=dark
 let g:molokai_original=1
 color molokai
-"color solarized
+
+ " Plugin key-mappings.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+imap <C-S>     <Plug>(neosnippet_expand_or_jump)
+smap <C-S>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-S>     <Plug>(neosnippet_expand_target)
+
+" SuperTab like snippets behavior.
+" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
+"imap <expr><TAB>
+" \ pumvisible() ? "\<C-n>" :
+" \ neosnippet#expandable_or_jumpable() ?
+" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
+" For conceal markers.
+if has('conceal')
+  set conceallevel=2 concealcursor=niv
+endif
 
 noremap <C-H> <C-W>h
 noremap <C-J> <C-W>j
@@ -117,24 +145,26 @@ noremap <S-Up> :cprev<CR>
 noremap <S-Down> :cnext<CR>
 
 noremap <TAB> :b#<CR>
-noremap ,s :nohlsearch<CR>
 noremap ,n :nohlsearch<CR>
 noremap ,s :set spell!<CR>
 noremap ,w :w<CR>
 noremap ,h :ToggleHeader<CR>
 noremap ,, :tabprev<CR>
 noremap ,. :tabnext<CR>
+noremap ,cf :call <SID>CopyFilename()<CR>
 
-noremap <F2> :call <SID>OpenTerminal(1)<CR>
-noremap <F3> :call <SID>OpenTerminal(2)<CR>
-noremap <F4> :call <SID>OpenTerminal(3)<CR>
-noremap <F5> :call <SID>OpenTerminal(4)<CR>
+noremap <F2> :call <SID>OpenTerminal(2)<CR>
+noremap <F3> :call <SID>OpenTerminal(3)<CR>
+noremap <F4> :call <SID>OpenTerminal(4)<CR>
+noremap <F5> :call <SID>OpenTerminal(5)<CR>
+noremap <F6> :call <SID>OpenTerminal(5)<CR>
 noremap <F10> :BufExplorer<CR>
 
-inoremap <F2> <ESC>:call <SID>OpenTerminal(1)<CR>
-inoremap <F3> <ESC>:call <SID>OpenTerminal(2)<CR>
-inoremap <F4> <ESC>:call <SID>OpenTerminal(3)<CR>
-inoremap <F5> <ESC>:call <SID>OpenTerminal(4)<CR>
+inoremap <F2> <ESC>:call <SID>OpenTerminal(2)<CR>
+inoremap <F3> <ESC>:call <SID>OpenTerminal(3)<CR>
+inoremap <F4> <ESC>:call <SID>OpenTerminal(4)<CR>
+inoremap <F5> <ESC>:call <SID>OpenTerminal(5)<CR>
+inoremap <F6> <ESC>:call <SID>OpenTerminal(6)<CR>
 inoremap <F10> :BufExplorer<CR>
 
 au FileType go nmap ,b :wall<CR><Plug>(go-build)
@@ -146,7 +176,7 @@ au FileType go nmap ,ga :wall<CR>:GoAlternate<CR>
 au FileType go nmap ,gd :wall<CR>:GoDeclsDir<CR>
 au FileType go nmap ,go :wall<CR>:GoDoc<CR>
 
-au FileType c,cpp ClangFormatAutoEnable
+"au FileType c,cpp ClangFormatAutoEnable
 
 if has('nvim')
   tnoremap <ESC><ESC> <C-\><C-n>
@@ -159,10 +189,11 @@ if has('nvim')
   tnoremap <C-v>c <C-\><C-n>"cPi
   tnoremap <C-v>d <C-\><C-n>"dPi
 
-  tnoremap <F2> <C-\><C-n>:call <SID>OpenTerminal(1)<CR>
-  tnoremap <F3> <C-\><C-n>:call <SID>OpenTerminal(2)<CR>
-  tnoremap <F4> <C-\><C-n>:call <SID>OpenTerminal(3)<CR>
-  tnoremap <F5> <C-\><C-n>:call <SID>OpenTerminal(4)<CR>
+  tnoremap <F2> <C-\><C-n>:call <SID>OpenTerminal(2)<CR>
+  tnoremap <F3> <C-\><C-n>:call <SID>OpenTerminal(3)<CR>
+  tnoremap <F4> <C-\><C-n>:call <SID>OpenTerminal(4)<CR>
+  tnoremap <F5> <C-\><C-n>:call <SID>OpenTerminal(5)<CR>
+  tnoremap <F6> <C-\><C-n>:call <SID>OpenTerminal(6)<CR>
   tnoremap <F10> <C-\><C-n>:BufExplorer<CR>
 endif
 
@@ -204,6 +235,11 @@ function! s:SetupText()
   set norelativenumber
 endfunction
 
+function! s:CopyFilename()
+  let @d=expand('%:p')
+  echo @d
+endfunction
+
 command! Cdf :execute "cd " . expand("%:p:h")
 command! ToggleHeader :call <SID>ToggleHeader()
 command! SetupText :call <SID>SetupText()
@@ -215,18 +251,18 @@ augroup END
 if has('nvim')
     " Terminal settings
     function! s:SetupTerminal()
-      au Daniel BufEnter <buffer> call <SID>OnEnterTerminal()
+      "au Daniel BufEnter <buffer> call <SID>OnEnterTerminal()
       setlocal nonumber
       setlocal relativenumber
     endfunction
 
     au Daniel TermOpen * call <SID>SetupTerminal()
 
-    function! s:OnEnterTerminal()
-      if !&insertmode
-        normal i
-      endif
-    endfunction
+    "function! s:OnEnterTerminal()
+    "  if !&insertmode
+    "    normal i
+    "  endif
+    "endfunction
 endif
 
 "=====================================================
@@ -281,6 +317,8 @@ endfunction
 function! StatusLineLeftInfo()
  let branch = fugitive#head()
  let filename = '' != expand('%:t') ? expand('%:t') : '[No Name]'
+ let changed = getbufinfo('%')[0]['changed'] ? ' *' : ''
+ let filename = filename . changed
  if branch !=# ''
    return printf("%s | %s", branch, filename)
  endif
