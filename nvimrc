@@ -33,6 +33,7 @@ set wrap
 set foldmethod=syntax
 set foldlevelstart=99
 set cino=l1,g1,h1,N-s,i2s,+2s,(0,u0,U1,W4,m1,:0
+set conceallevel=0
 
 let g:ctrlp_custom_ignore = '\vvendor\/|third_party\/'
 
@@ -88,53 +89,31 @@ let g:bufExplorerDefaultHelp=0
 
 call plug#begin('~/.nvim/plugged')
 
-Plug 'fatih/vim-go', { 'tag': 'v1.17' }
-Plug 'fatih/molokai'
-Plug 'jlanzarotta/bufexplorer'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'tpope/vim-fugitive'
-Plug 'ekalinin/Dockerfile.vim'
-Plug 'hashivim/vim-terraform'
-Plug 'leafgarland/typescript-vim'
-Plug 'rhysd/vim-clang-format'
-Plug 'posva/vim-vue'
 Plug 'digitaltoad/vim-pug'
+Plug 'ekalinin/Dockerfile.vim'
+Plug 'fatih/molokai'
+Plug 'fatih/vim-go', { 'tag': 'v1.18' }
+Plug 'jlanzarotta/bufexplorer'
+Plug 'leafgarland/typescript-vim'
 Plug 'ngg/vim-gn'
-if has('nvim')
-"  Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-endif
-"Plug 'Shougo/neosnippet'
-"Plug 'Shougo/neosnippet-snippets'
+Plug 'posva/vim-vue'
+Plug 'rhysd/vim-clang-format'
+Plug 'rust-lang/rust.vim'
+Plug 'tpope/vim-fugitive'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'hashivim/vim-terraform'
 
 call plug#end()
 
-"let g:deoplete#enable_at_startup = 1
+"set t_Co=256
+"let g:rehash256=1
+"set background=dark
+"let g:molokai_original=1
+"color molokai
 
 set t_Co=256
-let g:rehash256=1
 set background=dark
-let g:molokai_original=1
-color molokai
-
- " Plugin key-mappings.
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-imap <C-S>     <Plug>(neosnippet_expand_or_jump)
-smap <C-S>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-S>     <Plug>(neosnippet_expand_target)
-
-" SuperTab like snippets behavior.
-" Note: It must be "imap" and "smap".  It uses <Plug> mappings.
-"imap <expr><TAB>
-" \ pumvisible() ? "\<C-n>" :
-" \ neosnippet#expandable_or_jumpable() ?
-" \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-\ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-" For conceal markers.
-if has('conceal')
-  set conceallevel=2 concealcursor=niv
-endif
+color PaperColor
 
 noremap <C-H> <C-W>h
 noremap <C-J> <C-W>j

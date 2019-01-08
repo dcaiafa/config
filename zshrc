@@ -7,6 +7,7 @@ zstyle ':completion:*' menu select
 # zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion:*' use-cache on
 zstyle ':completion:*' cache-path ~/.zsh/cache
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
 
 # Configure command history
 export HISTSIZE=2000
