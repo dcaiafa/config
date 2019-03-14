@@ -92,7 +92,7 @@ call plug#begin('~/.nvim/plugged')
 Plug 'digitaltoad/vim-pug'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'fatih/molokai'
-Plug 'fatih/vim-go', { 'tag': 'v1.18' }
+Plug 'fatih/vim-go', { 'tag': 'v1.19' }
 Plug 'jlanzarotta/bufexplorer'
 Plug 'leafgarland/typescript-vim'
 Plug 'ngg/vim-gn'
@@ -199,9 +199,14 @@ function! s:OpenTerminal(i)
   if !bufexists(tn)
     terminal
     execute "file " . tn
+    normal i
     return
   endif
   execute "buffer " . tn
+  split
+  close
+  vsplit
+  close
   normal i
 endfunction
 
@@ -223,6 +228,10 @@ command! Cdf :execute "cd " . expand("%:p:h")
 command! ToggleHeader :call <SID>ToggleHeader()
 command! SetupText :call <SID>SetupText()
 
+" Helper for searching things that have characters that would need to be
+" escaped.
+command! -nargs=1 Ss let @/ = escape(<q-args>, '/')|normal! /<C-R>/<CR>
+
 augroup Daniel
   au! Daniel
 augroup END
@@ -233,6 +242,7 @@ if has('nvim')
       "au Daniel BufEnter <buffer> call <SID>OnEnterTerminal()
       setlocal nonumber
       setlocal relativenumber
+      setlocal isk=@,48-57,_,192-255,#,.,-,/
     endfunction
 
     au Daniel TermOpen * call <SID>SetupTerminal()
