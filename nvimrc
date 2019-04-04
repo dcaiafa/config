@@ -50,6 +50,10 @@ let g:go_textobj_include_function_doc = 1
 " Prevent vim-go plugin from "auto-detecting" the wrong GOPATH.
 let g:go_autodetect_gopath = 0
 
+let g:ycm_filetype_blacklist = {
+  \ 'go': 1,
+  \}
+
 if has('nvim')
 	set termguicolors
   set ttimeout
@@ -102,6 +106,7 @@ Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'hashivim/vim-terraform'
+Plug 'Valloric/YouCompleteMe'
 
 call plug#end()
 
