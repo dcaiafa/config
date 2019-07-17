@@ -50,6 +50,7 @@ let g:go_textobj_include_function_doc = 1
 " Prevent vim-go plugin from "auto-detecting" the wrong GOPATH.
 let g:go_autodetect_gopath = 0
 
+let g:ycm_min_num_of_chars_for_completion = 99
 let g:ycm_filetype_blacklist = {
   \ 'go': 1,
   \}
@@ -142,6 +143,7 @@ noremap <F3> :call <SID>OpenTerminal(3)<CR>
 noremap <F4> :call <SID>OpenTerminal(4)<CR>
 noremap <F5> :call <SID>OpenTerminal(5)<CR>
 noremap <F6> :call <SID>OpenTerminal(5)<CR>
+noremap <F9> :NGToggleSidebar<CR>
 noremap <F10> :BufExplorer<CR>
 
 inoremap <F2> <ESC>:call <SID>OpenTerminal(2)<CR>
@@ -159,6 +161,10 @@ au FileType go nmap ,gi :wall<CR>:GoImports<CR>
 au FileType go nmap ,ga :wall<CR>:GoAlternate<CR>
 au FileType go nmap ,gd :wall<CR>:GoDeclsDir<CR>
 au FileType go nmap ,go :wall<CR>:GoDoc<CR>
+
+au FileType c,cpp nmap ,gd :YcmCompleter GoToDeclaration<CR>
+au FileType c,cpp nmap ,fi :YcmCompleter FixIt<CR>
+au FileType c,cpp nmap ,cf normal 
 
 "au FileType c,cpp ClangFormatAutoEnable
 
@@ -257,6 +263,10 @@ if has('nvim')
     "    normal i
     "  endif
     "endfunction
+endif
+
+if exists('g:GtkGuiLoaded')
+  call rpcnotify(1, 'Gui', 'Font', 'Fira Code 16')
 endif
 
 "=====================================================
