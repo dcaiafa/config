@@ -34,6 +34,7 @@ set foldmethod=syntax
 set foldlevelstart=99
 set cino=l1,g1,h1,N-s,i2s,+2s,(0,u0,U1,W4,m1,:0
 set conceallevel=0
+set noshowmode
 
 let g:ctrlp_custom_ignore = '\vvendor\/|third_party\/'
 
@@ -45,6 +46,7 @@ set vb t_vb=
 
 let mapleader = '\'
 
+let g:go_echo_go_info = 1
 let g:go_textobj_include_function_doc = 1
 
 " Prevent vim-go plugin from "auto-detecting" the wrong GOPATH.
@@ -97,7 +99,8 @@ call plug#begin('~/.nvim/plugged')
 Plug 'digitaltoad/vim-pug'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'fatih/molokai'
-Plug 'fatih/vim-go', { 'tag': 'v1.19' }
+Plug 'fatih/vim-go', { 'commit': '007b69c27b63fbcbe2e0766073b09281274b0231' }
+"Plug 'fatih/vim-go', { 'tag': 'v1.21' }
 Plug 'jlanzarotta/bufexplorer'
 Plug 'leafgarland/typescript-vim'
 Plug 'ngg/vim-gn'
@@ -108,6 +111,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'hashivim/vim-terraform'
 Plug 'Valloric/YouCompleteMe'
+Plug 'lepture/vim-jinja'
 
 call plug#end()
 
@@ -131,7 +135,7 @@ noremap <S-Down> :cnext<CR>
 
 noremap <TAB> :b#<CR>
 noremap ,n :nohlsearch<CR>
-noremap ,s :set spell!<CR>
+noremap ,s :setlocal spell!<CR>
 noremap ,w :w<CR>
 noremap ,h :ToggleHeader<CR>
 noremap ,, :tabprev<CR>
@@ -164,7 +168,6 @@ au FileType go nmap ,go :wall<CR>:GoDoc<CR>
 
 au FileType c,cpp nmap ,gd :YcmCompleter GoToDeclaration<CR>
 au FileType c,cpp nmap ,fi :YcmCompleter FixIt<CR>
-au FileType c,cpp nmap ,cf normal 
 
 "au FileType c,cpp ClangFormatAutoEnable
 
@@ -178,6 +181,7 @@ if has('nvim')
   tnoremap <C-v>b <C-\><C-n>"bPi
   tnoremap <C-v>c <C-\><C-n>"cPi
   tnoremap <C-v>d <C-\><C-n>"dPi
+  tnoremap <C-v>+ <C-\><C-n>"+Pi
 
   tnoremap <F2> <C-\><C-n>:call <SID>OpenTerminal(2)<CR>
   tnoremap <F3> <C-\><C-n>:call <SID>OpenTerminal(3)<CR>
