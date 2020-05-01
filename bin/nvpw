@@ -1,10 +1,10 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from neovim import attach
 import os, sys
 
 args = sys.argv[1:]
 if not args:
-    print "Usage: {} <filename> ...".format(sys.argv[0])
+    print("Usage: {} <filename> ...".format(sys.argv[0]))
     sys.exit(1)
 
 addr = os.environ["NVIM_LISTEN_ADDRESS"]
@@ -13,4 +13,4 @@ if not addr:
     sys.exit(2)
 
 nvim = attach("socket", path=addr)
-print nvim.eval("fnamemodify(bufname(winbufnr(%d)), \":p\")" % int(args[0]))
+print(nvim.eval("fnamemodify(bufname(winbufnr(%d)), \":p\")" % int(args[0])))
