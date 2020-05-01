@@ -17,7 +17,7 @@ set nowritebackup
 set number
 set relativenumber
 set ruler
-set scrolloff=3
+"set scrolloff=3
 set shiftwidth=2
 set showmatch
 set smartcase
@@ -48,6 +48,9 @@ let mapleader = '\'
 
 let g:go_echo_go_info = 1
 let g:go_textobj_include_function_doc = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_parameters = 1
+let g:go_rename_command = 'gopls'
 
 " Prevent vim-go plugin from "auto-detecting" the wrong GOPATH.
 let g:go_autodetect_gopath = 0
@@ -99,8 +102,8 @@ call plug#begin('~/.nvim/plugged')
 Plug 'digitaltoad/vim-pug'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'fatih/molokai'
-Plug 'fatih/vim-go', { 'commit': '007b69c27b63fbcbe2e0766073b09281274b0231' }
-"Plug 'fatih/vim-go', { 'tag': 'v1.21' }
+"Plug 'fatih/vim-go', { 'commit': '007b69c27b63fbcbe2e0766073b09281274b0231' }
+Plug 'fatih/vim-go', { 'tag': 'v1.22' }
 Plug 'jlanzarotta/bufexplorer'
 Plug 'leafgarland/typescript-vim'
 Plug 'ngg/vim-gn'
@@ -147,7 +150,7 @@ noremap <F3> :call <SID>OpenTerminal(3)<CR>
 noremap <F4> :call <SID>OpenTerminal(4)<CR>
 noremap <F5> :call <SID>OpenTerminal(5)<CR>
 noremap <F6> :call <SID>OpenTerminal(5)<CR>
-noremap <F9> :NGToggleSidebar<CR>
+noremap <F9> :call go#lsp#Restart()<CR>
 noremap <F10> :BufExplorer<CR>
 
 inoremap <F2> <ESC>:call <SID>OpenTerminal(2)<CR>
@@ -218,10 +221,10 @@ function! s:OpenTerminal(i)
     return
   endif
   execute "buffer " . tn
-  split
-  close
-  vsplit
-  close
+  "  split
+  "close
+  "vsplit
+  "close
   normal i
 endfunction
 
