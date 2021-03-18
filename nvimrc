@@ -52,6 +52,8 @@ let g:go_highlight_functions = 1
 let g:go_highlight_function_parameters = 1
 let g:go_rename_command = 'gopls'
 
+let g:rustfmt_autosave = 1
+
 " Prevent vim-go plugin from "auto-detecting" the wrong GOPATH.
 let g:go_autodetect_gopath = 0
 
@@ -102,8 +104,7 @@ call plug#begin('~/.nvim/plugged')
 Plug 'digitaltoad/vim-pug'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'fatih/molokai'
-"Plug 'fatih/vim-go', { 'commit': '007b69c27b63fbcbe2e0766073b09281274b0231' }
-Plug 'fatih/vim-go', { 'tag': 'v1.22' }
+Plug 'fatih/vim-go', { 'tag': 'v1.24' }
 Plug 'jlanzarotta/bufexplorer'
 Plug 'leafgarland/typescript-vim'
 Plug 'ngg/vim-gn'
@@ -115,6 +116,8 @@ Plug 'NLKNguyen/papercolor-theme'
 Plug 'hashivim/vim-terraform'
 Plug 'Valloric/YouCompleteMe'
 Plug 'lepture/vim-jinja'
+Plug 'dylon/vim-antlr'
+"Plug 'dense-analysis/ale'
 
 call plug#end()
 
