@@ -91,15 +91,6 @@ if has('nvim')
 "  let g:terminal_color_15 = '#eeeeec'
 endif
 
-if has("gui_running") && has('windows')
-  set guifont=Consolas:h12:cANSI
-
-  " Maximize windows on start-up if in diff mode.
-  if &diff
-    au Daniel GUIEnter * simalt ~x  
-  endif
-endif
-
 syntax on
 filetype plugin indent on
 
@@ -125,7 +116,8 @@ Plug 'lepture/vim-jinja'
 Plug 'dylon/vim-antlr'
 Plug 'sheerun/vim-polyglot'
 Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
-Plug '~/config/vim-nitro'
+Plug '~/src/my/vim-nitro'
+"Plug 'dcaiafa/vim-nitro', { 'branch': 'main' }
 
 call plug#end()
 
