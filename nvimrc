@@ -46,21 +46,15 @@ set vb t_vb=
 
 let mapleader = '\'
 
-let g:go_echo_go_info = 1
-let g:go_textobj_include_function_doc = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_function_parameters = 1
-let g:go_rename_command = 'gopls'
+let g:go_gopls_enabled = 0
+let g:go_echo_go_info = 0
 
 let g:rustfmt_autosave = 1
 
 " Prevent vim-go plugin from "auto-detecting" the wrong GOPATH.
 let g:go_autodetect_gopath = 0
 
-let g:ycm_min_num_of_chars_for_completion = 99
-let g:ycm_filetype_blacklist = {
-  \ 'go': 1,
-  \}
+let g:UltiSnipsListSnippets="<c-l>"
 
 if exists('+termguicolors')
   let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
@@ -98,28 +92,99 @@ let g:bufExplorerDefaultHelp=0
 
 call plug#begin('~/.nvim/plugged')
 
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'fatih/vim-go', { 'tag': 'v1.25' }
+Plug 'neovim/nvim-lspconfig'
 Plug 'digitaltoad/vim-pug'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'fatih/molokai'
-Plug 'fatih/vim-go', { 'tag': 'v1.24' }
 Plug 'jlanzarotta/bufexplorer'
 Plug 'leafgarland/typescript-vim'
 Plug 'ngg/vim-gn'
 Plug 'posva/vim-vue'
-Plug 'rhysd/vim-clang-format'
+"Plug 'rhysd/vim-clang-format'
 Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'NLKNguyen/papercolor-theme'
 Plug 'hashivim/vim-terraform'
-Plug 'Valloric/YouCompleteMe', { 'commit': '4891999f05516' }
+"Plug 'Valloric/YouCompleteMe', { 'commit': '4891999f05516' }
 Plug 'lepture/vim-jinja'
 Plug 'dylon/vim-antlr'
-Plug 'sheerun/vim-polyglot'
+"Plug 'sheerun/vim-polyglot'
 Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
+
 Plug '~/src/my/vim-nitro'
 "Plug 'dcaiafa/vim-nitro', { 'branch': 'main' }
 
 call plug#end()
+
+" Setup native pls support. Based on:
+" https://github.com/neovim/nvim-lspconfig
+" https://www.getman.io/posts/programming-go-in-neovim/
+lua << EOF
+require'lspconfig'.gopls.setup{}
+
+local nvim_lsp = require('lspconfig')
+
+-- Use an on_attach function to only map the following keys
+-- after the language server attaches to the current buffer
+local on_attach = function(client, bufnr)
+  local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
+  local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
+
+  -- Enable completion triggered by <c-x><c-o>
+  buf_set_option('omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+  -- Mappings.
+  local opts = { noremap=true, silent=true }
+
+  -- See `:help vim.lsp.*` for documentation on any of the below functions
+  buf_set_keymap('n', 'gD', '<Cmd>lua vim.lsp.buf.declaration()<CR>', opts)
+  buf_set_keymap('n', 'gd', '<Cmd>lua vim.lsp.buf.definition()<CR>', opts)
+  buf_set_keymap('n', 'K', '<Cmd>lua vim.lsp.buf.hover()<CR>', opts)
+  buf_set_keymap('n', 'gi', '<cmd>lua vim.lsp.buf.implementation()<CR>', opts)
+  buf_set_keymap('i', '<C-k>', '<cmd>lua vim.lsp.buf.signature_help()<CR>', opts)
+  buf_set_keymap('n', '<space>wa', '<cmd>lua vim.lsp.buf.add_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wr', '<cmd>lua vim.lsp.buf.remove_workspace_folder()<CR>', opts)
+  buf_set_keymap('n', '<space>wl', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)
+  buf_set_keymap('n', '<space>D', '<cmd>lua vim.lsp.buf.type_definition()<CR>', opts)
+  buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
+  buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
+  buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
+  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
+end
+
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities.textDocument.completion.completionItem.snippetSupport = true
+
+nvim_lsp.gopls.setup{
+	cmd = {'gopls'},
+	-- for postfix snippets and analyzers
+	capabilities = capabilities,
+	    settings = {
+	      gopls = {
+		      experimentalPostfixCompletions = true,
+		      analyses = {
+		        unusedparams = false,
+		        shadow = true,
+		     },
+		     staticcheck = true,
+		    },
+	    },
+	on_attach = on_attach,
+}
+
+require'lspconfig'.clangd.setup{
+  filetypes = { "c", "cpp", "cc", "objc", "objcpp" },
+	on_attach = on_attach,
+}
+
+EOF
 
 set t_Co=256
 set background=dark
@@ -162,14 +227,10 @@ inoremap <F10> :BufExplorer<CR>
 au FileType go nmap ,b :wall<CR><Plug>(go-build)
 au FileType go nmap ,gtt :wall<CR><Plug>(go-test)
 au FileType go nmap ,gtf :wall<CR><Plug>(go-test-func)
-au FileType go nmap ,gr :wall<CR><Plug>(go-rename)
 au FileType go nmap ,gi :wall<CR>:GoImports<CR>
 au FileType go nmap ,ga :wall<CR>:GoAlternate<CR>
 au FileType go nmap ,gd :wall<CR>:GoDeclsDir<CR>
 au FileType go nmap ,go :wall<CR>:GoDoc<CR>
-
-au FileType c,cpp nmap ,gd :YcmCompleter GoToDeclaration<CR>
-au FileType c,cpp nmap ,fi :YcmCompleter FixIt<CR>
 
 "au FileType c,cpp ClangFormatAutoEnable
 
@@ -271,10 +332,6 @@ if has('nvim')
     "endfunction
 endif
 
-if exists('g:GtkGuiLoaded')
-  call rpcnotify(1, 'Gui', 'Font', 'Fira Code 16')
-endif
-
 "=====================================================
 "===================== STATUSLINE ====================
 "Copied from https://github.com/fatih/dotfiles/blob/master/vimrc
@@ -351,9 +408,9 @@ set statusline+=\ %{StatusLineLeftInfo()}
 set statusline+=\ %*
 
 " go command status (requires vim-go)
-set statusline+=%#goStatuslineColor#
-set statusline+=%{go#statusline#Show()}
-set statusline+=%*
+"set statusline+=%#goStatuslineColor#
+"set statusline+=%{go#statusline#Show()}
+"set statusline+=%*
 
 " right section seperator
 set statusline+=%=
