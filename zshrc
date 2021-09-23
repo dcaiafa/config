@@ -48,8 +48,17 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
   export CLICOLOR=1
   alias n="osascript -e \"display notification \\\"Done\\\" with title \\\"Done\\\"\""
 fi
+
 alias v='nvopen'
 alias s='printf "$fg[red]"; repeat $(tput cols) printf "#"; printf $reset_color; print'
+
+function cdv() {
+  cd `nvpwd`
+}
+
+function vcd() {
+  nvcd .
+}
 
 # Environment variables
 export PATH=$HOME/config/bin:$PATH

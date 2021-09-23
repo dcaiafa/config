@@ -240,11 +240,16 @@ if has('nvim')
   tnoremap <C-j> <C-\><C-n><C-w>j
   tnoremap <C-k> <C-\><C-n><C-w>k
   tnoremap <C-l> <C-\><C-n><C-w>l
-  tnoremap <C-v>a <C-\><C-n>"aPi
-  tnoremap <C-v>b <C-\><C-n>"bPi
-  tnoremap <C-v>c <C-\><C-n>"cPi
-  tnoremap <C-v>d <C-\><C-n>"dPi
-  tnoremap <C-v>+ <C-\><C-n>"+Pi
+  tnoremap <C-r><C-r> <C-r>
+  tnoremap <C-r>a <C-\><C-n>"aPi
+  tnoremap <C-r>a <C-\><C-n>"aPi
+  tnoremap <C-r>b <C-\><C-n>"bPi
+  tnoremap <C-r>c <C-\><C-n>"cPi
+  tnoremap <C-r>d <C-\><C-n>"dPi
+  tnoremap <C-r>e <C-\><C-n>"ePi
+  tnoremap <C-r>x <C-\><C-n>"xPi
+  tnoremap <C-r>y <C-\><C-n>"yPi
+  tnoremap <C-r>+ <C-\><C-n>"+Pi
 
   tnoremap <F2> <C-\><C-n>:call <SID>OpenTerminal(2)<CR>
   tnoremap <F3> <C-\><C-n>:call <SID>OpenTerminal(3)<CR>
