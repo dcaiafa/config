@@ -56,10 +56,6 @@ function cdv() {
   cd `nvpwd`
 }
 
-function vcd() {
-  nvcd .
-}
-
 # Environment variables
 export PATH=$HOME/config/bin:$PATH
 export EDITOR=$HOME/config/bin/nved
