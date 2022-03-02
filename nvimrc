@@ -96,26 +96,20 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'fatih/vim-go', { 'tag': 'v1.25' }
 Plug 'neovim/nvim-lspconfig'
-Plug 'digitaltoad/vim-pug'
 Plug 'ekalinin/Dockerfile.vim'
-Plug 'fatih/molokai'
 Plug 'jlanzarotta/bufexplorer'
-Plug 'leafgarland/typescript-vim'
 Plug 'ngg/vim-gn'
-Plug 'posva/vim-vue'
-"Plug 'rhysd/vim-clang-format'
 Plug 'rust-lang/rust.vim'
 Plug 'tpope/vim-fugitive'
-Plug 'NLKNguyen/papercolor-theme'
 Plug 'hashivim/vim-terraform'
-"Plug 'Valloric/YouCompleteMe', { 'commit': '4891999f05516' }
 Plug 'lepture/vim-jinja'
 Plug 'dylon/vim-antlr'
-"Plug 'sheerun/vim-polyglot'
-Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
+
+Plug 'fatih/molokai'
+Plug 'NLKNguyen/papercolor-theme'
+Plug 'morhetz/gruvbox'
 
 Plug '~/src/my/vim-nitro'
-"Plug 'dcaiafa/vim-nitro', { 'branch': 'main' }
 
 call plug#end()
 
@@ -152,10 +146,10 @@ local on_attach = function(client, bufnr)
   buf_set_keymap('n', '<space>rn', '<cmd>lua vim.lsp.buf.rename()<CR>', opts)
   buf_set_keymap('n', '<space>ca', '<cmd>lua vim.lsp.buf.code_action()<CR>', opts)
   buf_set_keymap('n', 'gr', '<cmd>lua vim.lsp.buf.references()<CR>', opts)
-  buf_set_keymap('n', '<space>e', '<cmd>lua vim.lsp.diagnostic.show_line_diagnostics()<CR>', opts)
-  buf_set_keymap('n', '[d', '<cmd>lua vim.lsp.diagnostic.goto_prev()<CR>', opts)
-  buf_set_keymap('n', ']d', '<cmd>lua vim.lsp.diagnostic.goto_next()<CR>', opts)
-  buf_set_keymap('n', '<space>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
+  buf_set_keymap('n', '<space>e', '<cmd>lua vim.diagnostic.open_float()|<CR>', opts)
+  buf_set_keymap('n', '[d', '<cmd>lua vim.diagnostic.goto_prev()<CR>', opts)
+  buf_set_keymap('n', ']d', '<cmd>lua vim.diagnostic.goto_next()<CR>', opts)
+  buf_set_keymap('n', '<space>q', '<cmd>lua vim.diagnostic.setloclist()<CR>', opts)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 end
 
@@ -189,7 +183,8 @@ EOF
 set t_Co=256
 set background=dark
 
-color PaperColor
+color gruvbox
+" color PaperColor
 " color spaceduck
 
 noremap <C-H> <C-W>h
