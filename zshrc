@@ -15,10 +15,16 @@ export HISTFILE="$HOME/.zsh_history"
 export SAVEHIST=$HISTSIZE
 setopt hist_ignore_space
 
+# Enable zoxide (must be installed manually)
+# https://github.com/ajeetdsouza/zoxide
+eval "$(zoxide init zsh)"
+
 # Configure colors
 autoload -U colors && colors
 
 # Configure prompt
+autoload -Uz promptinit && promptinit
+
 PROMPT="%{$fg_bold[blue]%} %% %{$reset_color%}"
 RPROMPT="%{$fg[blue]%} %4d %{$reset_color%}"
 
@@ -40,6 +46,7 @@ alias 6='cd ../../../../../..'
 alias 7='cd ../../../../../../..'
 alias 8='cd ../../../../../../../..'
 alias 9='cd ../../../../../../../../..'
+alias cd='z'
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
   alias ls='ls --color'
@@ -70,47 +77,48 @@ bm() {
   alias cd$1="cd `pwd`"
 }
 
-dgrep() {
-  if [[ -z $1 ]]; then
-    echo "Usage: dgrep [-r] <file-extension>+ -- <text-to-search>"
-    return 1
-  fi
+# https://wiki.archlinux.org/title/Zsh#Key_bindings
+# create a zkbd compatible hash;
+# to add other keys to this hash, see: man 5 terminfo
+typeset -g -A key
 
-  recurse_flag=''
-  include_flags=''
-  files=()
-  while true; do
-    if [[ -z $1 ]]; then
-      echo "Missing --" >&2
-      return 1
-    elif [[ $1 == "-r" ]]; then
-      recurse_flag='-r'
-      shift
-    elif [[ $1 == '--' ]]; then
-      shift
-      break
-    else
-      if [[ -z $recurse_flag ]]; then
-        files+=(*.$1)
-      else
-        include_flags="${include_flags} --include=*.$1"
-      fi
-      shift
-    fi
-  done
+key[Home]="${terminfo[khome]}"
+key[End]="${terminfo[kend]}"
+key[Insert]="${terminfo[kich1]}"
+key[Backspace]="${terminfo[kbs]}"
+key[Delete]="${terminfo[kdch1]}"
+key[Up]="${terminfo[kcuu1]}"
+key[Down]="${terminfo[kcud1]}"
+key[Left]="${terminfo[kcub1]}"
+key[Right]="${terminfo[kcuf1]}"
+key[PageUp]="${terminfo[kpp]}"
+key[PageDown]="${terminfo[knp]}"
+key[Shift-Tab]="${terminfo[kcbt]}"
+key[Control-Left]="${terminfo[kLFT5]}"
+key[Control-Right]="${terminfo[kRIT5]}"
 
-  if [[ -z $1 ]]; then
-    echo "Missing string after --" >&2
-    return 1
-  fi
+# setup key accordingly
+[[ -n "${key[Home]}"      ]] && bindkey -- "${key[Home]}"              beginning-of-line
+[[ -n "${key[End]}"       ]] && bindkey -- "${key[End]}"               end-of-line
+[[ -n "${key[Insert]}"    ]] && bindkey -- "${key[Insert]}"            overwrite-mode
+[[ -n "${key[Backspace]}" ]] && bindkey -- "${key[Backspace]}"         backward-delete-char
+[[ -n "${key[Delete]}"    ]] && bindkey -- "${key[Delete]}"            delete-char
+[[ -n "${key[Up]}"        ]] && bindkey -- "${key[Up]}"                up-line-or-history
+[[ -n "${key[Down]}"      ]] && bindkey -- "${key[Down]}"              down-line-or-history
+[[ -n "${key[Left]}"      ]] && bindkey -- "${key[Left]}"              backward-char
+[[ -n "${key[Right]}"     ]] && bindkey -- "${key[Right]}"             forward-char
+[[ -n "${key[PageUp]}"    ]] && bindkey -- "${key[PageUp]}"            beginning-of-buffer-or-history
+[[ -n "${key[PageDown]}"  ]] && bindkey -- "${key[PageDown]}"          end-of-buffer-or-history
+[[ -n "${key[Shift-Tab]}" ]] && bindkey -- "${key[Shift-Tab]}"         reverse-menu-complete
+[[ -n "${key[Control-Left]}"  ]] && bindkey -- "${key[Control-Left]}"  backward-word
+[[ -n "${key[Control-Right]}" ]] && bindkey -- "${key[Control-Right]}" forward-word
 
-  if [[ -z $files ]]; then
-    files+=(*)
-  fi
-
-  grep -H ${recurse_flag} ${=include_flags} $1 ${=files}
-}
-
-if [[ -f ~/.local_zshrc ]]; then
-  source ~/.local_zshrc
+# Finally, make sure the terminal is in application mode, when zle is
+# active. Only then are the values from $terminfo valid.
+if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
+	autoload -Uz add-zle-hook-widget
+	function zle_application_mode_start { echoti smkx }
+	function zle_application_mode_stop { echoti rmkx }
+	add-zle-hook-widget -Uz zle-line-init zle_application_mode_start
+	add-zle-hook-widget -Uz zle-line-finish zle_application_mode_stop
 fi
