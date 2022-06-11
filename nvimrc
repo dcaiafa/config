@@ -94,8 +94,8 @@ call plug#begin('~/.nvim/plugged')
 
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
-"Plug 'fatih/vim-go', { 'tag': 'v1.25' }
-Plug 'fatih/vim-go', { 'commit': 'dcefd64ba251ffc3d497f8758036735c8f6cc824' }
+Plug 'fatih/vim-go', { 'tag': 'v1.26' }
+"Plug 'fatih/vim-go', { 'commit': 'dcefd64ba251ffc3d497f8758036735c8f6cc824' }
 Plug 'neovim/nvim-lspconfig'
 Plug 'ekalinin/Dockerfile.vim'
 Plug 'jlanzarotta/bufexplorer'
@@ -385,7 +385,7 @@ function! StatusLinePercent()
 endfunction
 
 function! StatusLineLeftInfo()
- let branch = fugitive#head()
+ let branch = FugitiveHead()
  let filename = '' != expand('%:t') ? expand('%:t') : '[No Name]'
  let changed = getbufinfo('%')[0]['changed'] ? ' *' : ''
  let filename = filename . changed
