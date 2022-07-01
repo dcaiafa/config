@@ -16,7 +16,7 @@ def fullpath(*args):
     del _p
 
 
-addr = os.environ.get("NVIM_LISTEN_ADDRESS", None)
+addr = os.environ.get("NVIM", None)
 if not addr:
     print("not in nvim, please cd manually")
 

@@ -12,7 +12,7 @@ if not args:
     print("Usage: {} <filename> ...".format(sys.argv[0]))
     sys.exit(1)
 
-addr = os.environ.get("NVIM_LISTEN_ADDRESS", None)
+addr = os.environ.get("NVIM", None)
 if not addr:
     os.execvp('nvim', args)
 

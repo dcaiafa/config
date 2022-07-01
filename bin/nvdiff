@@ -11,7 +11,7 @@ if len(args) < 2:
     sys.exit(1)
 
 
-addr = os.environ.get("NVIM_LISTEN_ADDRESS", None)
+addr = os.environ.get("NVIM", None)
 if not addr:
     os.execvp('nvim', args)
 

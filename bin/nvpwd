@@ -2,7 +2,7 @@
 from neovim import attach
 import os, sys
 
-addr = os.environ["NVIM_LISTEN_ADDRESS"]
+addr = os.environ["NVIM"]
 if not addr:
     sys.exit(2)
 

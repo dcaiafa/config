@@ -7,7 +7,7 @@ if not args:
     print("Usage: {} <filename> ...".format(sys.argv[0]))
     sys.exit(1)
 
-addr = os.environ["NVIM_LISTEN_ADDRESS"]
+addr = os.environ["NVIM"]
 if not addr:
     # TODO: Open a new nvim instance if no addr
     sys.exit(2)
