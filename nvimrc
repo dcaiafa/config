@@ -44,15 +44,12 @@ set noswapfile
 " Disable beeps
 set vb t_vb=
 
-let mapleader = '\'
+let mapleader = ','
 
 let g:go_gopls_enabled = 0
 let g:go_echo_go_info = 0
 
 let g:rustfmt_autosave = 1
-
-" Prevent vim-go plugin from "auto-detecting" the wrong GOPATH.
-let g:go_autodetect_gopath = 0
 
 let g:UltiSnipsListSnippets="<c-l>"
 
@@ -92,39 +89,45 @@ let g:bufExplorerDefaultHelp=0
 
 call plug#begin('~/.nvim/plugged')
 
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
-Plug 'fatih/vim-go', { 'tag': 'v1.26' }
 Plug 'neovim/nvim-lspconfig'
-Plug 'ekalinin/Dockerfile.vim'
-Plug 'jlanzarotta/bufexplorer'
-Plug 'ngg/vim-gn'
-Plug 'rust-lang/rust.vim'
+Plug 'nvim-treesitter/nvim-treesitter'
+Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim', { 'tag': '0.1.0' }
+Plug 'mfussenegger/nvim-dap'
+Plug 'rcarriga/nvim-dap-ui'
+Plug 'theHamsta/nvim-dap-virtual-text'
+
 Plug 'tpope/vim-fugitive'
+Plug 'jlanzarotta/bufexplorer'
+Plug 'junegunn/fzf'
+Plug 'nanotee/zoxide.vim'
+Plug 'BurntSushi/ripgrep'
+
+" Color schemes
+Plug 'EdenEast/nightfox.nvim'
+"Plug 'fatih/molokai'
+"Plug 'NLKNguyen/papercolor-theme'
+"Plug 'morhetz/gruvbox'
+
+" Go
+Plug 'ray-x/go.nvim'
+
+" Rust
+Plug 'rust-lang/rust.vim'
+
+" Syntax highlight
+Plug 'ekalinin/Dockerfile.vim'
+Plug 'ngg/vim-gn'
 Plug 'hashivim/vim-terraform'
 Plug 'lepture/vim-jinja'
 Plug 'dylon/vim-antlr'
-Plug 'junegunn/fzf'
-Plug 'nanotee/zoxide.vim'
-
-Plug 'fatih/molokai'
-Plug 'NLKNguyen/papercolor-theme'
-Plug 'morhetz/gruvbox'
-
 Plug '~/src/my/vim-nitro'
 
 call plug#end()
 
-" Setup native pls support. Based on:
-" https://github.com/neovim/nvim-lspconfig
-" https://www.getman.io/posts/programming-go-in-neovim/
-lua << EOF
-require'lspconfig'.gopls.setup{}
-
-local nvim_lsp = require('lspconfig')
-
--- Use an on_attach function to only map the following keys
--- after the language server attaches to the current buffer
+lua <<EOF
 local on_attach = function(client, bufnr)
   local function buf_set_keymap(...) vim.api.nvim_buf_set_keymap(bufnr, ...) end
   local function buf_set_option(...) vim.api.nvim_buf_set_option(bufnr, ...) end
@@ -155,29 +158,61 @@ local on_attach = function(client, bufnr)
   buf_set_keymap("n", "<space>f", "<cmd>lua vim.lsp.buf.formatting()<CR>", opts)
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-nvim_lsp.gopls.setup{
-	cmd = {'gopls'},
-	-- for postfix snippets and analyzers
-	capabilities = capabilities,
-	    settings = {
-	      gopls = {
-		      experimentalPostfixCompletions = true,
-		      analyses = {
-		        unusedparams = false,
-		        shadow = true,
-		     },
-		     staticcheck = true,
-		    },
-	    },
-	on_attach = on_attach,
-}
-
 require'lspconfig'.clangd.setup{
   filetypes = { "c", "cpp", "cc", "objc", "objcpp" },
 	on_attach = on_attach,
+}
+
+-- Based on [https://github.com/ray-x/go.nvim].
+require 'go'.setup({
+  goimport = 'gopls', -- if set to 'gopls' will use golsp format
+  gofmt = 'gopls', -- if set to gopls will use golsp format
+  max_line_len = 80,
+  tag_transform = false,
+  test_dir = '',
+  comment_placeholder = '   ',
+  lsp_cfg = true, -- false: use your own lspconfig
+  lsp_gofumpt = true, -- true: set default gofmt in gopls format to gofumpt
+  lsp_on_attach = on_attach, 
+  dap_debug = true,
+})
+
+-- Also based on [https://github.com/ray-x/go.nvim].
+require "nvim-treesitter.configs".setup {
+  ensure_installed = { "go" },
+  sync_install = true,
+  highlight = {
+    enable = true,
+    additional_vim_regex_highlighting = false,
+  },
+  textobjects = {
+    enable = true,
+    keymaps = {
+      ["af"] = "@function.outer",
+      ["if"] = "@function.inner",
+    },
+    move = {
+      enable = enable,
+      set_jumps = true, -- whether to set jumps in the jumplist
+      goto_next_start = {
+        ["]]"] = "@function.outer",
+      },
+      goto_previous_start = {
+        ["[["] = "@function.outer",
+      },
+    },
+  },
+}
+
+local telescope_actions = require("telescope.actions")
+require("telescope").setup{
+  defaults = {
+    mappings = {
+      i = {
+        ["<esc>"] = telescope_actions.close
+      }
+    }
+  }
 }
 
 EOF
@@ -185,9 +220,10 @@ EOF
 set t_Co=256
 set background=dark
 
-color gruvbox
+" color gruvbox
 " color PaperColor
 " color spaceduck
+colorscheme nightfox
 
 noremap <C-H> <C-W>h
 noremap <C-J> <C-W>j
@@ -205,6 +241,10 @@ noremap ,h :ToggleHeader<CR>
 noremap ,, :tabprev<CR>
 noremap ,. :tabnext<CR>
 noremap ,cf :call <SID>CopyFilename()<CR>
+nnoremap <leader>ff <cmd>Telescope git_files<cr>
+nnoremap <leader>fg <cmd>Telescope live_grep<cr>
+nnoremap <leader>fb <cmd>Telescope buffers<cr>
+nnoremap <leader>fh <cmd>Telescope help_tags<cr>
 
 noremap <F2> :call <SID>OpenTerminal(2)<CR>
 noremap <F3> :call <SID>OpenTerminal(3)<CR>
@@ -222,12 +262,11 @@ inoremap <F6> <ESC>:call <SID>OpenTerminal(6)<CR>
 inoremap <F10> :BufExplorer<CR>
 
 au FileType go nmap ,b :wall<CR><Plug>(go-build)
-au FileType go nmap ,gtt :wall<CR><Plug>(go-test)
-au FileType go nmap ,gtf :wall<CR><Plug>(go-test-func)
-au FileType go nmap ,gi :wall<CR>:GoImports<CR>
-au FileType go nmap ,ga :wall<CR>:GoAlternate<CR>
-au FileType go nmap ,gd :wall<CR>:GoDeclsDir<CR>
-au FileType go nmap ,go :wall<CR>:GoDoc<CR>
+au FileType go nmap ,gtf :wall<CR>GoTest -n
+au FileType go nmap ,gtt :wall<CR>GoTest -f
+au FileType go nmap ,gtp :wall<CR>GoTest -p
+au FileType go nmap ,gi :wall<CR>:GoImport<CR>
+au FileType go nmap ,ga :wall<CR>:GoAlt<CR>
 
 "au FileType c,cpp ClangFormatAutoEnable
 
@@ -408,11 +447,6 @@ set statusline+=%*
 set statusline+=%#myInfoColor#
 set statusline+=\ %{StatusLineLeftInfo()}
 set statusline+=\ %*
-
-" go command status (requires vim-go)
-"set statusline+=%#goStatuslineColor#
-"set statusline+=%{go#statusline#Show()}
-"set statusline+=%*
 
 " right section seperator
 set statusline+=%=
