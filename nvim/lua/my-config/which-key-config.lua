@@ -82,6 +82,14 @@ require("which-key").register({
 }, { prefix = "<leader>", mode = "n", { silent = true } })
 
 require("which-key").register({
+  t = {
+    name = "NeovimTree",
+    t = { "<cmd>NvimTreeToggle<cr>", "Toggle" },
+    f = { "<cmd>NvimTreeFindFile<cr>", "Find file" },
+  }
+}, { prefix = "<leader>", mode = "n", { silent = true } })
+
+require("which-key").register({
   y = {
     name = "Yank (copy)",
     f = { "<cmd>YankFilename<cr>", "Yank current buffer's filename" }

@@ -16,7 +16,6 @@ map('n', '<C-L>', '<C-W>l')
 
 map('n', '<TAB>', ':b#<CR>')
 map('n', '<ESC>', ':nohlsearch<Bar>:echo<CR>')
-map('n', '<F10>', ':BufExplorer<CR>')
 
 -- Starlite mappings.
 map('n', '*', function() return require('starlite').star() end)
@@ -30,6 +29,7 @@ map({'n', 't'}, '<F3>', function() require('my-config.functions').open_terminal(
 map({'n', 't'}, '<F4>', function() require('my-config.functions').open_terminal(4) end)
 map({'n', 't'}, '<F5>', function() require('my-config.functions').open_terminal(5) end)
 map({'n', 't'}, '<F6>', function() require('my-config.functions').open_terminal(6) end)
+map({'n', 't'}, '<F10>', '<cmd>BufExplorer<CR>')
 map('t', '<ESC><ESC>', '<C-\\><C-n>')
 map('t', '<C-h>', '<C-\\><C-n><C-w>h')
 map('t', '<C-j>', '<C-\\><C-n><C-w>j')

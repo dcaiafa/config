@@ -34,11 +34,14 @@ packer.startup(function(use)
   use { 
     'neovim/nvim-lspconfig',
     config = function()
+      local capabilities = vim.lsp.protocol.make_client_capabilities()
       require'lspconfig'.clangd.setup{
+        capabilities = capabilities,
         filetypes = { "c", "cpp", "cc", "objc", "objcpp" },
         on_attach = require("my-config.lsp_on_attach"),
       }
       require'lspconfig'.gopls.setup{
+        capabilities = capabilities,
         cmd = {'gopls'},
         settings = {
           gopls = {
@@ -73,19 +76,21 @@ packer.startup(function(use)
           additional_vim_regex_highlighting = false,
         },
         textobjects = {
-          enable = true,
-          keymaps = {
-            ["af"] = "@function.outer",
-            ["if"] = "@function.inner",
+          select = {
+            enable = true,
+            keymaps = {
+              ["af"] = "@function.outer",
+              ["if"] = "@function.inner",
+            },
           },
           move = {
-            enable = enable,
+            enable = true,
             set_jumps = true, -- whether to set jumps in the jumplist
             goto_next_start = {
-              ["]]"] = "@function.outer",
+              ["]]"] = {"@function.outer", "@class.outer"},
             },
             goto_previous_start = {
-              ["[["] = "@function.outer",
+              ["[["] = {"@function.outer", "@class.outer"},
             },
           },
         },
@@ -104,6 +109,7 @@ packer.startup(function(use)
       "nvim-lua/popup.nvim",
       "nvim-lua/plenary.nvim",
     },
+    ensure_dependencies = true,
     config = function() 
       local telescope_actions = require("telescope.actions")
       require("telescope").setup{
@@ -130,6 +136,7 @@ packer.startup(function(use)
 
   use { 'EdenEast/nightfox.nvim' }
 
+  --[[
   use { 
     'ray-x/go.nvim',
     ft = "go",
@@ -144,9 +151,11 @@ packer.startup(function(use)
         lsp_cfg = false, -- false: use your own lspconfig
         lsp_gofumpt = false, -- true: set default gofmt in gopls format to gofumpt
         dap_debug = true,
+        verbose = true,
       })
     end
   }
+  --]]
 
   use { 'rust-lang/rust.vim' }
 
@@ -163,12 +172,14 @@ packer.startup(function(use)
 
   use {
       'SmiteshP/nvim-navic',
-      requires = { 'neovim/nvim-lspconfig' }
+      requires = { 'neovim/nvim-lspconfig' },
+      ensure_dependencies = true,
   }
 
   use {
     'nvim-lualine/lualine.nvim',
     requires = {'kyazdani42/nvim-web-devicons', opt = true},
+    ensure_dependencies = true,
     config = 'require("my-config.lualine-config")'
   }
 
@@ -177,11 +188,12 @@ packer.startup(function(use)
     requires = {
       'kyazdani42/nvim-web-devicons', -- optional, for file icons
     },
+    ensure_dependencies = true,
     config = function() 
       require("nvim-tree").setup{
         sync_root_with_cwd = true
       }
-	end
+    end,
   }
 
   use { '~/src/my/vim-nitro' }
