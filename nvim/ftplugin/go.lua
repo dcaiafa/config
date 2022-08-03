@@ -5,16 +5,16 @@ vim.opt_local.softtabstop = 2
 require("which-key").register({
   c = {
     name = "Coding",
-    a = { "<cmd>GoAlt<cr>", "Go alternate file" },
-    e = { "<cmd>GoIfErr<cr>", "Add if err" },
-    b = { "<cmd>GoBuild<cr>", "Build" },
-    i = { "<cmd>GoImport<cr>", "Add imports" },
+    --a = { "<cmd>GoAlt<cr>", "Go alternate file" },
+    --e = { "<cmd>GoIfErr<cr>", "Add if err" },
+    --b = { "<cmd>GoBuild<cr>", "Build" },
+    --i = { "<cmd>GoImport<cr>", "Add imports" },
     t = {
       name = "Testing",
-      n = { "<cmd>GoTest -n<cr>", "Run nearest test" },
-      p = { "<cmd>GoTest -p<cr>", "Run package tests" },
-      t = { "<cmd>GoTest -f<cr>", "Run file tests" },
-      c = { "<cmd>GoCoverage<cr>", "Test coverage" },
+      --n = { "<cmd>GoTest -n<cr>", "Run nearest test" },
+      p = { "<cmd>GoTest<cr>", "Run package tests" },
+      --t = { "<cmd>GoTest -f<cr>", "Run file tests" },
+      --c = { "<cmd>GoCoverage<cr>", "Test coverage" },
     }
   }
 }, { prefix = "<leader>", mode = "n", { silent = true } })
@@ -22,7 +22,8 @@ require("which-key").register({
 local myGoGroup = vim.api.nvim_create_augroup("MyGoGroup", {})
 vim.api.nvim_create_autocmd("BufWritePre", {
   callback = function()
-    require('go.format').goimport()
+    require('go.lsp').organize_imports()
+    vim.lsp.buf.formatting_sync()
   end,
   group = myGoGroup,
   buffer = vim.fn.bufnr()

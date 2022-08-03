@@ -19,7 +19,7 @@ vim.opt.timeoutlen = 400
 vim.opt.ttimeoutlen = 0
 vim.opt.virtualedit = "all"
 vim.opt.wildignore:append { "*.swp", "*.bak", "*.pyc" }
-vim.opt.wildmode = { "full" }
+vim.opt.wildmode = { "longest:full" }
 
 vim.g.mapleader = ","
 

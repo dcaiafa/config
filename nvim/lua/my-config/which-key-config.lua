@@ -82,10 +82,9 @@ require("which-key").register({
 }, { prefix = "<leader>", mode = "n", { silent = true } })
 
 require("which-key").register({
-  t = {
-    name = "NeovimTree",
-    t = { "<cmd>NvimTreeToggle<cr>", "Toggle" },
-    f = { "<cmd>NvimTreeFindFile<cr>", "Find file" },
+  m = {
+    name = "Miscellaneous",
+    t = { "<cmd>NvimTreeFindFile<cr>", "Open nvim-tree" },
   }
 }, { prefix = "<leader>", mode = "n", { silent = true } })
 

@@ -191,7 +191,9 @@ packer.startup(function(use)
     ensure_dependencies = true,
     config = function() 
       require("nvim-tree").setup{
-        sync_root_with_cwd = true
+        view = {
+          adaptive_size = true,
+        },
       }
     end,
   }
