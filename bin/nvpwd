@@ -7,4 +7,4 @@ if not addr:
     sys.exit(2)
 
 nvim = attach("socket", path=addr)
-print(nvim.eval("getcwd(-1)"))
+print(nvim.eval("getcwd()"))
