@@ -9,13 +9,13 @@ M.open_terminal = function(n)
     cmd('terminal')
     cmd('file ' .. buf)
     if fn.mode() == 'n' then
-      cmd('normal i')
+      cmd('startinsert')
     end
     return
   end
   cmd('buffer ' .. buf)
   if fn.mode() == 'n' then
-    cmd('normal i')
+    cmd('startinsert')
   end
 end
 
