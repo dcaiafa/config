@@ -33,20 +33,27 @@ autoload -z edit-command-line
 zle -N edit-command-line
 bindkey "^X^E" edit-command-line
 
+function my_cd() {
+  z $*
+  if [[ ! -z "$NVIM" ]]; then
+    nvcd .
+  fi
+}
+
 # Aliases
 alias l='ls -CF'
 alias la='ls -A'
 alias ll='ls -alF'
-alias 1='cd ..'
-alias 2='cd ../..'
-alias 3='cd ../../..'
-alias 4='cd ../../../..'
-alias 5='cd ../../../../..'
-alias 6='cd ../../../../../..'
-alias 7='cd ../../../../../../..'
-alias 8='cd ../../../../../../../..'
-alias 9='cd ../../../../../../../../..'
-alias cd='z'
+alias 1='my_cd ..'
+alias 2='my_cd ../..'
+alias 3='my_cd ../../..'
+alias 4='my_cd ../../../..'
+alias 5='my_cd ../../../../..'
+alias 6='my_cd ../../../../../..'
+alias 7='my_cd ../../../../../../..'
+alias 8='my_cd ../../../../../../../..'
+alias 9='my_cd ../../../../../../../../..'
+alias cd='my_cd'
 
 if [[ "$OSTYPE" == "linux-gnu" ]]; then
   alias ls='ls --color'
