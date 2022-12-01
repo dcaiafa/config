@@ -23,7 +23,7 @@ local myGoGroup = vim.api.nvim_create_augroup("MyGoGroup", {})
 vim.api.nvim_create_autocmd("BufWritePre", {
   callback = function()
     require('go.lsp').organize_imports()
-    vim.lsp.buf.formatting_sync()
+    vim.lsp.buf.format()
   end,
   group = myGoGroup,
   buffer = vim.fn.bufnr()
