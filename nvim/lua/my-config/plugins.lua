@@ -199,4 +199,12 @@ packer.startup(function(use)
   }
 
   use { '~/src/my/vim-nitro' }
+
+  use {
+    '~/src/my/go.nvim',
+    ft = "go",
+    config = function() 
+      require 'go'.setup()
+    end
+  }
 end)
