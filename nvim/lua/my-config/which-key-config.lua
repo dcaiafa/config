@@ -71,6 +71,16 @@ require("which-key").setup({
 })
 
 require("which-key").register({
+  ["1"] = { "<cmd>Terminal 1<cr>", "Open terminal 1" },
+  ["2"] = { "<cmd>Terminal 2<cr>", "Open terminal 2" },
+  ["3"] = { "<cmd>Terminal 3<cr>", "Open terminal 3" },
+  ["4"] = { "<cmd>Terminal 4<cr>", "Open terminal 4" },
+  ["5"] = { "<cmd>Terminal 5<cr>", "Open terminal 5" },
+  ["6"] = { "<cmd>Terminal 6<cr>", "Open terminal 6" },
+  ["7"] = { "<cmd>Terminal 7<cr>", "Open terminal 7" },
+  ["8"] = { "<cmd>Terminal 8<cr>", "Open terminal 8" },
+  ["9"] = { "<cmd>Terminal 9<cr>", "Open terminal 9" },
+  ["0"] = { "<cmd>BufExplorer<cr>", "Buffer Explorer" },
   f = {
     name = "Find",
     f = { "<cmd>Telescope find_files<cr>", "Find files in git repo" },
@@ -79,18 +89,6 @@ require("which-key").register({
     b = { "<cmd>Telescope buffers<cr>", "Find buffers" },
     h = { "<cmd>Telescope help_tags<cr>", "Find help tags" },
   },
-  t = {
-    name = "Terminal",
-    ["1"] = { "<cmd>Terminal 1<cr>", "Open terminal 1" },
-    ["2"] = { "<cmd>Terminal 2<cr>", "Open terminal 2" },
-    ["3"] = { "<cmd>Terminal 3<cr>", "Open terminal 3" },
-    ["4"] = { "<cmd>Terminal 4<cr>", "Open terminal 4" },
-    ["5"] = { "<cmd>Terminal 5<cr>", "Open terminal 5" },
-    ["6"] = { "<cmd>Terminal 6<cr>", "Open terminal 6" },
-    ["7"] = { "<cmd>Terminal 7<cr>", "Open terminal 7" },
-    ["8"] = { "<cmd>Terminal 8<cr>", "Open terminal 8" },
-    ["9"] = { "<cmd>Terminal 9<cr>", "Open terminal 9" },
-  }
 }, { prefix = "<leader>", mode = {"n", "i", "t"}, { silent = true } })
 
 require("which-key").register({
