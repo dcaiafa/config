@@ -21,6 +21,6 @@ vim.opt.virtualedit = "all"
 vim.opt.wildignore:append { "*.swp", "*.bak", "*.pyc" }
 vim.opt.wildmode = { "longest:full" }
 
-vim.g.mapleader = ","
+vim.g.mapleader = '\\'
 
 vim.cmd('colorscheme nightfox')

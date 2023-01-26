@@ -1,5 +1,6 @@
 local cmd = vim.cmd
 local fn = vim.fn
+local api = vim.api
 
 local M = {}
 
