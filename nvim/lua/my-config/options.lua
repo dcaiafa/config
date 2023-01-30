@@ -1,6 +1,8 @@
 vim.opt.backup = false
 vim.opt.completeopt = { "menu", "preview", "menuone" }
 vim.opt.equalalways = false
+vim.opt.equalalways = true
+vim.opt.eadirection = "hor"
 vim.opt.expandtab = true
 vim.opt.formatoptions = "cq"
 vim.opt.hlsearch = true
