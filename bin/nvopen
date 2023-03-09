@@ -15,14 +15,17 @@ if not addr:
 import os.path
 
 nvim = attach("socket", path=addr)
-def normalizePath(name):
+def escapePath(name):
     return os.path.abspath(name).replace(" ", "\\ ")
 
 def openFiles():
-    # To escape terminal mode. Not sure if bug.
+    # Leave terminal mode if necessary.
     nvim.feedkeys('', "n")
-    # nvim.command("wincmd w")
+
+    # Select first window.
+    nvim.command("1wincmd w")
+
     for x in args:
-        nvim.command("drop {}".format(normalizePath(x)))
+        nvim.command("drop {}".format(escapePath(x)))
 
 openFiles()
