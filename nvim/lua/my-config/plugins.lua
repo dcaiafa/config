@@ -183,25 +183,6 @@ packer.startup(function(use)
     config = 'require("my-config.lualine-config")'
   }
 
-  use {
-    'kyazdani42/nvim-tree.lua',
-    requires = {
-      'kyazdani42/nvim-web-devicons', -- optional, for file icons
-    },
-    ensure_dependencies = true,
-    config = function() 
-      require("nvim-tree").setup{
-        view = {
-          adaptive_size = true,
-        },
-        update_focused_file = {
-          enable = true,
-          update_root = true,
-        },
-      }
-    end,
-  }
-
   use { '~/src/my/vim-nitro' }
 
   use {

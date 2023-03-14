@@ -92,10 +92,6 @@ require("which-key").register({
 }, { prefix = "<leader>", mode = {"n", "i", "t"}, { silent = true } })
 
 require("which-key").register({
-  m = {
-    name = "Miscellaneous",
-    t = { "<cmd>NvimTreeFindFile<cr>", "Open nvim-tree" },
-  },
   y = {
     name = "Yank (copy)",
     f = { "<cmd>YankFilename<cr>", "Yank current buffer's filename" }
