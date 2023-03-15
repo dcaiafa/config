@@ -71,6 +71,7 @@ require("which-key").setup({
 })
 
 require("which-key").register({
+  ["\\"] = { "<cmd>BufExplorer<cr>", "Buffer Explorer" },
   ["1"] = { "<cmd>Terminal 1<cr>", "Open terminal 1" },
   ["2"] = { "<cmd>Terminal 2<cr>", "Open terminal 2" },
   ["3"] = { "<cmd>Terminal 3<cr>", "Open terminal 3" },
@@ -80,7 +81,7 @@ require("which-key").register({
   ["7"] = { "<cmd>Terminal 7<cr>", "Open terminal 7" },
   ["8"] = { "<cmd>Terminal 8<cr>", "Open terminal 8" },
   ["9"] = { "<cmd>Terminal 9<cr>", "Open terminal 9" },
-  ["0"] = { "<cmd>BufExplorer<cr>", "Buffer Explorer" },
+  ["e"] = { "<cmd>Explore<cr>", "Explore" },
   f = {
     name = "Find",
     f = { "<cmd>Telescope find_files<cr>", "Find files in git repo" },
