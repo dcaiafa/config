@@ -71,7 +71,7 @@ require("which-key").setup({
 })
 
 require("which-key").register({
-  ["\\"] = { "<cmd>BufExplorer<cr>", "Buffer Explorer" },
+  ["0"] = { "<cmd>BufExplorer<cr>", "Buffer Explorer" },
   ["1"] = { "<cmd>Terminal 1<cr>", "Open terminal 1" },
   ["2"] = { "<cmd>Terminal 2<cr>", "Open terminal 2" },
   ["3"] = { "<cmd>Terminal 3<cr>", "Open terminal 3" },
