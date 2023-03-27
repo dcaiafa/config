@@ -185,6 +185,7 @@ packer.startup(function(use)
 
   use { '~/src/my/vim-nitro' }
 
+  --[[
   use {
     '~/src/my/go.nvim',
     ft = "go",
@@ -192,4 +193,8 @@ packer.startup(function(use)
       require 'go'.setup()
     end
   }
+  --]]
+
+  use { 'fatih/vim-go' }
+
 end)
