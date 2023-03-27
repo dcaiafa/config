@@ -75,6 +75,7 @@ packer.startup(function(use)
           enable = true,
           additional_vim_regex_highlighting = false,
         },
+        -- https://github.com/nvim-treesitter/nvim-treesitter-textobjects
         textobjects = {
           select = {
             enable = true,
@@ -85,12 +86,21 @@ packer.startup(function(use)
           },
           move = {
             enable = true,
-            set_jumps = true, -- whether to set jumps in the jumplist
+            set_jumps = true,
             goto_next_start = {
-              ["]]"] = {"@function.outer", "@class.outer"},
+              ["]]"] = "@function.outer",
             },
             goto_previous_start = {
-              ["[["] = {"@function.outer", "@class.outer"},
+              ["[["] = "@function.outer",
+            },
+          },
+          swap = {
+            enable = true,
+            swap_next = {
+              ["<leader>a"] = "@parameter.inner",
+            },
+            swap_previous = {
+              ["<leader>A"] = "@parameter.inner",
             },
           },
         },
@@ -98,7 +108,12 @@ packer.startup(function(use)
     end,
   }
 
-  use { 'nvim-treesitter/nvim-treesitter-textobjects' }
+  use {
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    after = 'nvim-treesitter',
+    requires = 'nvim-treesitter/nvim-treesitter',
+  }
+
   use { "ironhouzi/starlite-nvim" }
   use { 'nvim-lua/plenary.nvim' }
 
@@ -129,36 +144,18 @@ packer.startup(function(use)
   use { 'theHamsta/nvim-dap-virtual-text' }
 
   use { 'tpope/vim-fugitive' }
-  use { 'jlanzarotta/bufexplorer' }
+  use {
+    'jlanzarotta/bufexplorer',
+    setup = function()
+      vim.g.bufExplorerDefaultHelp = 0
+      vim.g.bufExplorerDisableDefaultKeyMapping = 1
+    end,
+  }
   use { 'junegunn/fzf' }
   use { 'nanotee/zoxide.vim' }
   use { 'BurntSushi/ripgrep' }
-
   use { 'EdenEast/nightfox.nvim' }
-
-  --[[
-  use { 
-    'ray-x/go.nvim',
-    ft = "go",
-    config = function() 
-      require 'go'.setup({
-        goimport = 'gopls', -- if set to 'gopls' will use golsp format
-        gofmt = 'gopls', -- if set to gopls will use golsp format
-        max_line_len = 80,
-        tag_transform = false,
-        test_dir = '',
-        comment_placeholder = '   ',
-        lsp_cfg = false, -- false: use your own lspconfig
-        lsp_gofumpt = false, -- true: set default gofmt in gopls format to gofumpt
-        dap_debug = true,
-        verbose = true,
-      })
-    end
-  }
-  --]]
-
   use { 'rust-lang/rust.vim' }
-
   use { 'ekalinin/Dockerfile.vim' }
   use { 'ngg/vim-gn' }
   use { 'hashivim/vim-terraform' }
