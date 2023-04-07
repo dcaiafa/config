@@ -172,12 +172,6 @@ packer.startup(function(use)
   }
 
   use {
-      'SmiteshP/nvim-navic',
-      requires = { 'neovim/nvim-lspconfig' },
-      ensure_dependencies = true,
-  }
-
-  use {
     'nvim-lualine/lualine.nvim',
     requires = {'kyazdani42/nvim-web-devicons', opt = true},
     ensure_dependencies = true,

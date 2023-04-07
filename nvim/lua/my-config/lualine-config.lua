@@ -1,5 +1,3 @@
-local navic = require("nvim-navic")
-
 local function cwd() 
   return vim.loop.cwd()
 end
@@ -48,16 +46,7 @@ require("lualine").setup({
     lualine_y = {},
     lualine_z = {},
   },
-  tabline = {
-    lualine_a = {
-      { navic.get_location, cond = navic.is_available },
-    },
-    lualine_b = {},
-    lualine_c = {},
-    lualine_x = {},
-    lualine_y = {},
-    lualine_z = {},
-  },
+  tabline = {},
   extensions = { "nvim-tree", "toggleterm", "quickfix", "symbols-outline" },
 })
 
