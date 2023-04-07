@@ -82,6 +82,7 @@ require("which-key").register({
   ["8"] = { "<cmd>Terminal 8<cr>", "Open terminal 8" },
   ["9"] = { "<cmd>Terminal 9<cr>", "Open terminal 9" },
   ["e"] = { "<cmd>Explore<cr>", "Explore" },
+  ["d"] = { "<cmd>Bdelete<cr>", "Delete current buffer" },
   f = {
     name = "Find",
     f = { "<cmd>Telescope find_files<cr>", "Find files in git repo" },
@@ -89,6 +90,7 @@ require("which-key").register({
     g = { "<cmd>Telescope live_grep<cr>", "Find using live grep" },
     b = { "<cmd>Telescope buffers<cr>", "Find buffers" },
     h = { "<cmd>Telescope help_tags<cr>", "Find help tags" },
+    s = { "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", "Find help tags" },
   },
 }, { prefix = "<leader>", mode = {"n", "i", "t"}, { silent = true } })
 

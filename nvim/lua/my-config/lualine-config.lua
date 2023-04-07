@@ -1,5 +1,9 @@
 local navic = require("nvim-navic")
 
+local function cwd() 
+  return vim.loop.cwd()
+end
+
 -- use gitsigns as source info
 require("lualine").setup({
   options = {
@@ -7,20 +11,12 @@ require("lualine").setup({
     icons_enabled = true,
     disabled_filetypes = {},
     always_divide_middle = false,
+    --section_separators = { left = '', right = ''},
+    section_separators = { left = '', right = ''},
   },
   sections = {
-    lualine_a = {
-      {
-        "branch"
-      }
-    },
-    lualine_b = {
-      {
-        "diagnostics",
-        sources = { "nvim_lsp" },
-        sections = { "error", "warn", "info", "hint" },
-      },
-    },
+    lualine_a = {  "branch" },
+    lualine_b = { cwd },
     lualine_c = {
       {
         "filetype",
@@ -33,25 +29,35 @@ require("lualine").setup({
         shorting_target = 40, -- Shortens path to leave 40 spaces in the window
         symbols = { modified = "[]", readonly = " " },
       },
-      { navic.get_location, cond = navic.is_available },
     },
     lualine_x = {
-      "encoding",
-      "fileformat",
-      "filesize",
+      {
+        "diagnostics",
+        sources = { "nvim_lsp" },
+        sections = { "error", "warn", "info", "hint" },
+      },
     },
     lualine_y = { "progress" },
     lualine_z = { "location" },
   },
   inactive_sections = {
-    lualine_a = {},
-    lualine_b = {},
-    lualine_c = { "filename" },
+    lualine_a = { cwd },
+    lualine_b = { "filename" },
+    lualine_c = {},
     lualine_x = { "location" },
     lualine_y = {},
     lualine_z = {},
   },
-  tabline = {},
+  tabline = {
+    lualine_a = {
+      { navic.get_location, cond = navic.is_available },
+    },
+    lualine_b = {},
+    lualine_c = {},
+    lualine_x = {},
+    lualine_y = {},
+    lualine_z = {},
+  },
   extensions = { "nvim-tree", "toggleterm", "quickfix", "symbols-outline" },
 })
 

@@ -162,6 +162,10 @@ packer.startup(function(use)
   use { 'lepture/vim-jinja' }
   use { 'dylon/vim-antlr' }
 
+  -- Copied from https://astronvim.com/acknowledgements.
+  use { 'famiu/bufdelete.nvim' }
+  use { 'mrjones2014/smart-splits.nvim' }
+
   use { 
     "folke/which-key.nvim", 
     config = 'require("my-config.which-key-config")'
