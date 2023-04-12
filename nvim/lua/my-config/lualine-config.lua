@@ -1,7 +1,3 @@
-local function cwd() 
-  return vim.loop.cwd()
-end
-
 -- use gitsigns as source info
 require("lualine").setup({
   options = {
@@ -14,7 +10,7 @@ require("lualine").setup({
   },
   sections = {
     lualine_a = {  "branch" },
-    lualine_b = { cwd },
+    lualine_b = {},
     lualine_c = {
       {
         "filetype",
@@ -39,8 +35,8 @@ require("lualine").setup({
     lualine_z = { "location" },
   },
   inactive_sections = {
-    lualine_a = { cwd },
-    lualine_b = { "filename" },
+    lualine_a = { "filename" },
+    lualine_b = {},
     lualine_c = {},
     lualine_x = { "location" },
     lualine_y = {},
