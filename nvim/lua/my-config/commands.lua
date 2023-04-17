@@ -3,7 +3,7 @@ local cmd = vim.cmd
 local fn = vim.fn
 
 api.nvim_create_user_command('Cdf', function() 
-  fn.chdir(fn.expand("%:p:h"))
+  cmd('cd! %:p:h')
 end, {})
 
 api.nvim_create_user_command('YankFilename', function() 
