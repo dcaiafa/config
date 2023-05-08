@@ -3,7 +3,7 @@
 import os
 import sys
 
-from neovim import attach
+from pynvim import attach
 
 args = sys.argv[1:]
 args = [os.path.abspath(f) for f in args]

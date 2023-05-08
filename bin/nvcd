@@ -2,7 +2,7 @@
 import os
 import sys
 
-from neovim import attach
+from pynvim import attach
 
 args = sys.argv[1:]
 if len(args) != 1:
