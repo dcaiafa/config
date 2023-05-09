@@ -29,5 +29,5 @@ return function(client, bufnr)
 
   -- See:
   -- :help lsp-faq
-  buf_set_keymap("n", "<space>rl", "<cmd>lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR><cmd>edit<CR>", opts)
+  buf_set_keymap("n", "<space>rl", "<cmd>lua vim.lsp.stop_client(vim.lsp.get_active_clients())<CR><cmd>edit!<CR>", opts)
 end
