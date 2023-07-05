@@ -1,12 +1,15 @@
 #!/usr/bin/env python3
 
 from pynvim import attach
+import argparse
 import os, sys
 
-args = sys.argv[1:]
-if not args:
-    print("Usage: {} <filename> ...".format(sys.argv[0]))
-    sys.exit(1)
+argsp = argparse.ArgumentParser(
+        usage="%(prog)s <file> [pos]",
+        description="Open file in nvim")
+argsp.add_argument("file")
+argsp.add_argument("pos", nargs="?")
+args = argsp.parse_args()
 
 addr = os.environ["NVIM"]
 if not addr:
@@ -19,14 +22,11 @@ nvim = attach("socket", path=addr)
 def escapePath(name):
     return os.path.abspath(name).replace(" ", "\\ ")
 
-def openFiles():
-    # Leave terminal mode if necessary.
-    nvim.feedkeys('', "n")
+# Leave terminal mode if necessary.
+nvim.feedkeys('', "n")
 
-    # Select first window.
-    nvim.command("1wincmd w")
+if args.pos:
+    for pos in args.pos:
+        nvim.command("wincmd " + pos)
 
-    for x in args:
-        nvim.command("drop {}".format(escapePath(x)))
-
-openFiles()
+nvim.command("drop {}".format(escapePath(args.file)))
