@@ -13,4 +13,4 @@ if not addr:
     sys.exit(2)
 
 nvim = attach("socket", path=addr)
-print(nvim.eval("fnamemodify(bufname(winbufnr(%d)), \":p\")" % int(args[0])))
+print(nvim.eval("fnamemodify(bufname(winbufnr(winnr(\"%s\"))), \":p\")" % args[0]))
