@@ -178,7 +178,7 @@ packer.startup(function(use)
     config = 'require("my-config.lualine-config")'
   }
 
-  use { '~/src/my/vim-nitro' }
+  use { 'dcaiafa/vim-nitro' }
 
   --[[
   use {
