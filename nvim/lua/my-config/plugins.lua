@@ -119,7 +119,7 @@ packer.startup(function(use)
 
   use { 
     'nvim-telescope/telescope.nvim',
-    tag='0.1.0',
+    tag='0.1.3',
     requires = { 
       "nvim-lua/popup.nvim",
       "nvim-lua/plenary.nvim",
