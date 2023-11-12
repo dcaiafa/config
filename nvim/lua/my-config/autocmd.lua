@@ -1,4 +1,5 @@
 local api = vim.api
+local cmd = vim.cmd
 
 local myGroup = api.nvim_create_augroup("myGroups", {}) 
 api.nvim_create_autocmd("TermOpen", {
@@ -27,6 +28,13 @@ api.nvim_create_autocmd("FileType", {
     require("which-key").register({
       a = { "<cmd>GoAlternate<cr>", "Switch between implementation and test" }
     }, { prefix = "g", mode = "n", { silent = true } })
+  end
+})
+
+api.nvim_create_autocmd("VimResized", {
+  group = myGroup,
+  callback = function()
+    cmd('wincmd =')
   end
 })
 
