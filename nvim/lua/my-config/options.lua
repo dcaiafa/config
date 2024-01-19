@@ -25,4 +25,7 @@ vim.opt.wildmode = { "longest:full" }
 
 vim.g.mapleader = '\\'
 
-vim.cmd('colorscheme nightfox')
+--vim.cmd('colorscheme nightfox')
+
+vim.opt.background = "dark"
+vim.cmd([[ colorscheme gruvbox ]])

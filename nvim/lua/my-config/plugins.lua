@@ -179,6 +179,7 @@ packer.startup(function(use)
   }
 
   use { 'dcaiafa/vim-nitro' }
+  use { 'dcaiafa/vim-lox' }
 
   --[[
   use {
@@ -192,4 +193,6 @@ packer.startup(function(use)
 
   use { 'fatih/vim-go' }
 
+  -- https://github.com/ellisonleao/gruvbox.nvim
+  use { 'ellisonleao/gruvbox.nvim' }
 end)
