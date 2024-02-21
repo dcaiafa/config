@@ -90,7 +90,8 @@ require("which-key").register({
     g = { "<cmd>Telescope live_grep<cr>", "Find using live grep" },
     b = { "<cmd>Telescope buffers<cr>", "Find buffers" },
     h = { "<cmd>Telescope help_tags<cr>", "Find help tags" },
-    s = { "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", "Find help tags" },
+    s = { "<cmd>Telescope lsp_dynamic_workspace_symbols<cr>", "Find workspace symbols (LSP)" },
+    t = { "<cmd>Telescope treesitter<cr>", "Find symbols from treesitter" },
   },
 }, { prefix = "<leader>", mode = {"n", "i", "t"}, { silent = true } })
 
