@@ -109,9 +109,22 @@ packer.startup(function(use)
   }
 
   use {
+    'simrat39/rust-tools.nvim',
+    after = 'nvim-lspconfig',
+    requires = 'neovim/nvim-lspconfig',
+    config = function()
+      require("rust-tools").setup{
+        server = {
+          on_attach = require("my-config.lsp_on_attach")
+        }
+      }
+    end,
+  }
+
+  use {
     'nvim-treesitter/nvim-treesitter-textobjects',
     after = 'nvim-treesitter',
-    requires = 'nvim-treesitter/nvim-treesitter',
+    requires = 'neovim/nvim-lspconfig',
   }
 
   use { "ironhouzi/starlite-nvim" }
@@ -155,7 +168,6 @@ packer.startup(function(use)
   use { 'nanotee/zoxide.vim' }
   use { 'BurntSushi/ripgrep' }
   use { 'EdenEast/nightfox.nvim' }
-  use { 'rust-lang/rust.vim' }
   use { 'ekalinin/Dockerfile.vim' }
   use { 'ngg/vim-gn' }
   use { 'hashivim/vim-terraform' }
