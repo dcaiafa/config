@@ -108,6 +108,26 @@ packer.startup(function(use)
     end,
   }
 
+  --[[
+  use {
+    'mrcjkb/rustaceanvim',
+    tag = '4.21.0',
+    requires = 'neovim/nvim-lspconfig',
+    config = function() 
+      vim.g.rustaceanvim = {
+        server = {
+          on_attach = require("my-config.lsp_on_attach"),
+          default_settings = {
+            -- rust-analyzer language server configuration
+            ['rust-analyzer'] = {
+            },
+          },
+        },
+      }
+    end
+  }
+  ]]--
+
   use {
     'simrat39/rust-tools.nvim',
     after = 'nvim-lspconfig',
@@ -115,7 +135,15 @@ packer.startup(function(use)
     config = function()
       require("rust-tools").setup{
         server = {
-          on_attach = require("my-config.lsp_on_attach")
+          on_attach = require("my-config.lsp_on_attach"),
+          settings = {
+            ['rust-analyzer'] = {
+              diagnostics = {
+                experimental = { enable = true }
+              }
+            }
+          }
+
         }
       }
     end,
