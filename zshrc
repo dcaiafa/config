@@ -19,6 +19,8 @@ setopt hist_ignore_space
 # https://github.com/ajeetdsouza/zoxide
 eval "$(zoxide init zsh)"
 
+eval "$(fzf --zsh)"
+
 # Configure colors
 autoload -U colors && colors
 

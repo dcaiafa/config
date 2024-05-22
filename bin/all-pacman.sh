@@ -16,10 +16,10 @@ sudo pacman -S --needed \
   networkmanager ninja nodejs noto-fonts \
   noto-fonts-cjk noto-fonts-emoji noto-fonts-extra npm \
   nvidia nvidia-settings pavucontrol picom \
-  pipewire-audio pipewire-pulse plasma-browser-integration pritunl-client-electron \
+  pipewire-audio pipewire-pulse plasma-browser-integration \
   python-dbus-next python-pip python-psutil python-pynvim \
   python-setproctitle qtile rclone rofi \
   rust-analyzer rustup speedcrunch sudo \
   tcpdump terraform ttf-firacode-nerd unzip \
   vdpauinfo vlc which xclip \
-  xdg-desktop-portal-gtk zoxide zsh \
+  xdg-desktop-portal-gtk zoxide zsh
