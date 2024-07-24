@@ -54,6 +54,10 @@ packer.startup(function(use)
         },
         on_attach = require("my-config.lsp_on_attach"),
       }
+      -- npm install -g typescript typescript-language-server
+      require'lspconfig'.tsserver.setup{
+        on_attach = require("my-config.lsp_on_attach"), 
+      }
     end,
   }
 
@@ -107,26 +111,6 @@ packer.startup(function(use)
       }
     end,
   }
-
-  --[[
-  use {
-    'mrcjkb/rustaceanvim',
-    tag = '4.21.0',
-    requires = 'neovim/nvim-lspconfig',
-    config = function() 
-      vim.g.rustaceanvim = {
-        server = {
-          on_attach = require("my-config.lsp_on_attach"),
-          default_settings = {
-            -- rust-analyzer language server configuration
-            ['rust-analyzer'] = {
-            },
-          },
-        },
-      }
-    end
-  }
-  ]]--
 
   use {
     'simrat39/rust-tools.nvim',
@@ -208,18 +192,21 @@ packer.startup(function(use)
 
   use { 
     "folke/which-key.nvim", 
+    requires = { 'kyazdani42/nvim-web-devicons' },
     config = 'require("my-config.which-key-config")'
   }
 
   use {
     'nvim-lualine/lualine.nvim',
-    requires = {'kyazdani42/nvim-web-devicons', opt = true},
+    requires = { 'kyazdani42/nvim-web-devicons' },
     ensure_dependencies = true,
     config = 'require("my-config.lualine-config")'
   }
 
+  use { 'kyazdani42/nvim-web-devicons' }
   use { 'dcaiafa/vim-nitro' }
-  use { 'dcaiafa/vim-lox' }
+  --use { 'dcaiafa/vim-lox' }
+  use { '~/src/my/vim-lox' }
 
   --[[
   use {

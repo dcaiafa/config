@@ -15,9 +15,9 @@ api.nvim_create_autocmd("FileType", {
   group = myGroup,
   pattern = { "c", "cpp" },
   callback = function() 
-    require("which-key").register({
-      h = { "<cmd>ClangdSwitchSourceHeader<cr>", "Switch between implementation and header" }
-    }, { prefix = "g", mode = "n", { silent = true } })
+    require("which-key").add({
+      { "gh", "<cmd>ClangdSwitchSourceHeader<cr>", desc = "Switch between implementation and header" },
+    })
   end
 })
 
@@ -25,9 +25,9 @@ api.nvim_create_autocmd("FileType", {
   group = myGroup,
   pattern = { "go" },
   callback = function() 
-    require("which-key").register({
-      a = { "<cmd>GoAlternate<cr>", "Switch between implementation and test" }
-    }, { prefix = "g", mode = "n", { silent = true } })
+    require("which-key").add({
+      { "ga", "<cmd>GoAlternate<cr>", desc = "Switch between implementation and test" },
+    })
   end
 })
 

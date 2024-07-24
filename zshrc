@@ -72,8 +72,17 @@ function cdv() {
   cd `nvpwd`
 }
 
-# Environment variables
-export PATH=$HOME/config/bin:$PATH
+# Point `npm install -g` to .local, so that npm -g does not require sudo and
+# doesn't mess with system.
+export npm_config_prefix="$HOME/.local"
+
+# Paths
+export GOBIN=${HOME}/go/bin
+export PATH="${PATH}:${GOBIN}"
+export PATH="${PATH}:${HOME}/config/bin"
+export PATH="${PATH}:${HOME}/.local/bin"
+export PATH="${PATH}:${HOME}/.cargo/bin"
+
 export EDITOR=$HOME/config/bin/nved
 export KUBE_EDITOR=$EDITOR
 
