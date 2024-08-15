@@ -190,11 +190,13 @@ packer.startup(function(use)
   use { 'famiu/bufdelete.nvim' }
   use { 'mrjones2014/smart-splits.nvim' }
 
+  --[[
   use { 
     "folke/which-key.nvim", 
     requires = { 'kyazdani42/nvim-web-devicons' },
     config = 'require("my-config.which-key-config")'
   }
+  --]]
 
   use {
     'nvim-lualine/lualine.nvim',

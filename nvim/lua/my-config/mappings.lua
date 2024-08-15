@@ -11,13 +11,6 @@ map({'i', 't'}, '<leader>\\', '\\', { noremap = true })
 map('n', 'k', 'v:count == 0 ? "gk" : "k"', { expr = true})
 map('n', 'j', 'v:count == 0 ? "gj" : "j"', { expr = true})
 
---[[
-map('n', '<C-H>', '<C-W>h')
-map('n', '<C-J>', '<C-W>j')
-map('n', '<C-K>', '<C-W>k')
-map('n', '<C-L>', '<C-W>l')
---]]
-
 vim.keymap.set('n', '<A-h>', require('smart-splits').resize_left)
 vim.keymap.set('n', '<A-j>', require('smart-splits').resize_down)
 vim.keymap.set('n', '<A-k>', require('smart-splits').resize_up)
@@ -52,3 +45,27 @@ map('t', '<C-r>x', '<C-\\><C-n>"xPi')
 map('t', '<C-r>y', '<C-\\><C-n>"yPi')
 map('t', '<C-r>+', '<C-\\><C-n>"+Pi')
 map('t', '<C-r><C-r>', '<C-r>')
+
+local modes = { 'i', 'n', 't' }
+map(modes, '<leader>0', '<cmd>BufExplorer<cr>')
+map(modes, '<leader>1', '<cmd>Terminal 1<cr>')
+map(modes, '<leader>2', '<cmd>Terminal 2<cr>')
+map(modes, '<leader>3', '<cmd>Terminal 3<cr>')
+map(modes, '<leader>4', '<cmd>Terminal 4<cr>')
+map(modes, '<leader>5', '<cmd>Terminal 5<cr>')
+map(modes, '<leader>6', '<cmd>Terminal 6<cr>')
+map(modes, '<leader>7', '<cmd>Terminal 7<cr>')
+map(modes, '<leader>8', '<cmd>Terminal 8<cr>')
+map(modes, '<leader>9', '<cmd>Terminal 9<cr>')
+map(modes, '<leader>d', '<cmd>Bdelete<cr>')
+map(modes, '<leader>e', '<cmd>Explore<cr>')
+map(modes, '<leader>fb', '<cmd>Telescope buffers<cr>')
+map(modes, '<leader>ff', '<cmd>Telescope find_files<cr>')
+map(modes, '<leader>fg', '<cmd>Telescope live_grep<cr>')
+map(modes, '<leader>fh', '<cmd>Telescope help_tags<cr>')
+map(modes, '<leader>fr', '<cmd>Telescope git_files<cr>')
+map(modes, '<leader>fs', '<cmd>Telescope lsp_dynamic_workspace_symbols<cr>')
+map(modes, '<leader>ft', '<cmd>Telescope treesitter<cr>')
+
+modes = { "n", "i" }
+map(modes, 'yf', '<cmd>YankFilename<cr>')
