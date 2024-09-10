@@ -55,7 +55,7 @@ packer.startup(function(use)
         on_attach = require("my-config.lsp_on_attach"),
       }
       -- npm install -g typescript typescript-language-server
-      require'lspconfig'.tsserver.setup{
+      require'lspconfig'.ts_ls.setup{
         on_attach = require("my-config.lsp_on_attach"), 
       }
     end,
@@ -144,7 +144,6 @@ packer.startup(function(use)
 
   use { 
     'nvim-telescope/telescope.nvim',
-    tag='0.1.3',
     requires = { 
       "nvim-lua/popup.nvim",
       "nvim-lua/plenary.nvim",

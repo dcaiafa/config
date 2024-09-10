@@ -1,5 +1,5 @@
 vim.opt.backup = false
-vim.opt.completeopt = { "menu", "preview", "menuone" }
+vim.opt.completeopt = { "menu", "popup" }
 vim.opt.equalalways = false
 vim.opt.equalalways = true
 vim.opt.eadirection = "hor"

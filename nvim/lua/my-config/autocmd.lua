@@ -27,6 +27,14 @@ api.nvim_create_autocmd("FileType", {
   end
 })
 
+api.nvim_create_autocmd("FileType", {
+  group = myGroup,
+  pattern = { "rust" },
+  callback = function() 
+    vim.opt_local.shiftwidth = 2
+  end
+})
+
 api.nvim_create_autocmd("VimResized", {
   group = myGroup,
   callback = function()
