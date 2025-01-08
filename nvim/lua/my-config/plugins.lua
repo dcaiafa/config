@@ -73,6 +73,7 @@ packer.startup(function(use)
           "go",
           "lua",
           "python",
+          "rust",
         },
         sync_install = true,
         highlight = {
