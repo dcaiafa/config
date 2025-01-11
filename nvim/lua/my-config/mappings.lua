@@ -65,7 +65,7 @@ map(modes, '<leader>fg', '<cmd>Telescope live_grep<cr>')
 map(modes, '<leader>fh', '<cmd>Telescope help_tags<cr>')
 map(modes, '<leader>fr', '<cmd>Telescope git_files<cr>')
 map(modes, '<leader>fs', '<cmd>Telescope lsp_dynamic_workspace_symbols<cr>')
-map(modes, '<leader>ft', '<cmd>Telescope treesitter<cr>')
+map(modes, '<leader>ft', function() require('telescope.builtin').lsp_document_symbols({symbols = {"method", "function", "struct"}}) end)
 
 modes = { "n", "i" }
 map(modes, 'yf', '<cmd>YankFilename<cr>')
