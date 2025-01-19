@@ -23,6 +23,15 @@ vim.opt.virtualedit = "all"
 vim.opt.wildignore:append { "*.swp", "*.bak", "*.pyc" }
 vim.opt.wildmode = { "longest:full" }
 
+if vim.g.neovide then
+  vim.opt.guifont = "FiraCode Nerd Font:h9"
+
+  vim.g.neovide_padding_top = 10
+  vim.g.neovide_padding_bottom = 0
+  vim.g.neovide_padding_right = 10
+  vim.g.neovide_padding_left = 10
+end
+
 vim.g.mapleader = '\\'
 
 --vim.cmd('colorscheme nightfox')
