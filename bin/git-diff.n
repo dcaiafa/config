@@ -1,0 +1,70 @@
+#!/usr/bin/env nitro
+
+func git_root() {
+  var r = os.wd()
+  while true {
+    if filepath.exists(filepath.join(r, ".git")) {
+      return r
+    }
+    var nr = filepath.dir(r)
+    if nr == r {
+      throw "not a git repo"
+    }
+    r = nr
+  }
+}
+
+var status = 
+  e`git status --porcelain=v2 --branch` |
+  lines |
+  to_array
+
+var root = git_root()
+var wd = os.wd()
+
+func rel_path(p) {
+  var abs_path = filepath.join(root, p)
+  return filepath.rel(wd, abs_path)
+}
+
+# Parse divergence:
+# branch.ab +1 -2
+var local_commit_count = status |
+  filter(&l -> str.has_prefix(l, "# branch.ab ")) |
+  first |
+  (&l -> str.fields(l)[2])() |
+  to_int
+
+var commited_changes = 
+  e`git diff --name-only {sprintf("HEAD~%d", local_commit_count)}` | 
+  lines |
+  map(&l -> rel_path(l))
+
+
+# Example:
+# 1 .M N... 100644 100644 100644 328dca61c8375ec42990ef0d435f4ff752c788ee 328dca61c8375ec42990ef0d435f4ff752c788ee mp2t/mp2t.go 
+var local_changes = status |
+  filter(&l -> str.has_prefix(l, "1 ")) |
+  map(&l -> str.fields(l)) |
+  map(&f -> f[8]) |
+  to_array
+
+var all_changes = [ local_changes, commited_changes ] |
+  flatten |
+  unique |
+  sort |
+  to_array
+
+var choice = all_changes[0]
+while true {
+  choice = prompt({ 
+    message: "Select file:"
+    type: "select"
+    options: all_changes
+    vimmode: true
+    pagesize: 40
+    default: choice
+  }) | (&ndx -> all_changes[ndx])()
+
+  e`git difftool -y {sprintf("HEAD~%d", local_commit_count)} -- {choice}` | io.out
+}

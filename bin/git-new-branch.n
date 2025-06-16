@@ -1,0 +1,25 @@
+#! /usr/bin/env nitro
+
+!param new_branch_name { name: "branch", required, desc: "name of the branch to create" }
+
+func branch_exists(b) {
+  try {
+    e`git show --name-only {b}` | read()
+  } catch {
+    return false
+  }
+  return true
+}
+
+var main_branch = ""
+if branch_exists("origin/main") {
+  main_branch = "origin/main"
+} else if branch_exists("origin/master") {
+  main_branch = "origin/master"
+} else {
+  throw "repo does not have a main branch"
+}
+
+e`git fetch` | io.out
+e`git checkout -B {new_branch_name} {main_branch}` | io.out
+

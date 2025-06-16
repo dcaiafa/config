@@ -1,0 +1,46 @@
+#! /usr/bin/env nitro
+
+var git_date_format = "Mon Jan 2 15:04:05 2006 -0700"
+
+func get_branch_info(branch_name) {
+  var commit_date = e`git log -1 {branch_name}` | 
+    lines |
+    map(&e -> e | str.match(r`^Date:\s+(.*)$`) | get(1)) |
+    filter(&e -> e != nil) |
+    take(1) |
+    to_array() |
+    (&e -> time.parse(e[0], git_date_format))
+
+  return {
+    name: branch_name
+    last_commit_date: commit_date
+  }
+}
+
+var current_branch = 
+  e`git branch --show-current` | 
+  read | 
+  str.trim_space
+
+var branches = 
+  e`git branch` |
+    lines |
+    map(&e -> e | str.match(r`^\*?\s+(\S+)$`) | get(1)) |
+    map(&e -> get_branch_info(e)) |
+    sort(".last_commit_date,d") |
+    to_array()
+
+var selection = prompt({
+  message: "Select branch:"
+  type:"select"
+  options: branches | map(&e -> e.name) | to_array()
+  default: current_branch
+  vimmode: true
+}) | (&ndx -> branches[ndx].name)()
+
+if selection == current_branch {
+  print("No change.")
+  return
+}
+
+e`git checkout {selection}` | io.out

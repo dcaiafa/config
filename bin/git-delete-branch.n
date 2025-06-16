@@ -1,0 +1,37 @@
+#! /usr/bin/env nitro
+
+var current_branch = 
+  e`git branch --show-current` | 
+  read | 
+  str.trim_space
+
+func branch_exists(b) {
+  try {
+    e`git show --name-only {b}` | read()
+  } catch {
+    return false
+  }
+  return true
+}
+
+var main_branch_remote = ""
+var main_branch_local = ""
+if branch_exists("origin/main") {
+  main_branch_remote = "origin/main"
+  main_branch_local = "main"
+} else if branch_exists("origin/master") {
+  main_branch_remote = "origin/master"
+  main_branch_local = "master"
+} else {
+  throw "repo does not have a main branch"
+}
+
+var ans = prompt(sprintf("Delete branch %v? (y/N)", current_branch))
+if str.to_lower(ans) != "y" {
+  print("Aborting.")
+  return
+}
+
+e`git fetch` | io.out
+e`git checkout -B {main_branch_local} {main_branch_remote}` | io.out
+e`git branch -D {current_branch}` | io.out

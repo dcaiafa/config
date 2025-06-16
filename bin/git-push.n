@@ -1,0 +1,24 @@
+#! /usr/bin/env nitro
+
+!flag force {name: "f", type: "bool", desc: "Force push"}
+
+var current_branch = 
+  e`git branch --show-current` | 
+  read | 
+  str.trim_space
+
+if current_branch == "main" or current_branch == "master" {
+  if force {
+    throw "can't force push to main"
+  }
+
+  if prompt(sprintf("Pushing to %v. ARE YOU SURE?! (y/N)", current_branch)) | str.to_lower != "y" {
+    print("Aborting.")
+    return
+  }
+}
+
+e`git push origin {current_branch} {force ? "-f" : nil}` |
+  exec.with_stderr(io.err()) |
+  io.out
+

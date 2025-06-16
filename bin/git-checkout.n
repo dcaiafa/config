@@ -1,0 +1,42 @@
+#!/usr/bin/env nitro
+
+!param branch_substr { type: "[]str" }
+!flag force { name: "f", type: "bool" }
+
+e`git fetch` | discard
+e`git remote prune origin` | discard
+
+var remote_branches = e`git branch -r` |
+  lines |
+  map(&l -> str.trim_space(l)) |
+  filter(&l -> not str.find(l, "origin/HEAD")) |
+  map(&l -> str.replace(l, r`origin/(\w+)`, "$1")) |
+  sort
+
+var main_branch = list.find(remote_branches, "main") ?
+  "origin/main" : "origin/master"
+
+if len(branch_substr) != 0 {
+  for f in branch_substr {
+    remote_branches = remote_branches | filter(&b -> str.find(b, f)) | to_array
+  }
+}
+
+var branch
+
+if len(remote_branches) == 0 {
+  throw "No matching branches"
+} else if len(remote_branches) == 1 {
+  branch = remote_branches[0]
+} else {
+  branch = prompt({
+    message: "Select remote branch:",
+    type: "select",
+    options: remote_branches
+  }) | (&ndx -> remote_branches[ndx])()
+}
+
+e`git checkout { force ? "-B" : "-b" } {branch}` | io.out
+e`git reset --hard {"origin/" + branch}` | io.out
+e`git branch -u {main_branch}` | io.out
+e`git status` | io.out
