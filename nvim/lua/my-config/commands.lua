@@ -1,6 +1,7 @@
 local api = vim.api
 local cmd = vim.cmd
 local fn = vim.fn
+local log = require('my-config.log')
 
 api.nvim_create_user_command('Cdf', function() 
   cmd('cd! %:p:h')
@@ -12,6 +13,29 @@ api.nvim_create_user_command('YankFilename', function()
   fn.chdir(fn.expand("%:p:h"))
   print(filename)
 end, {})
+
+api.nvim_create_user_command('YankFileReference', function(c)
+  local filename = fn.expand('%:p')
+  local mode = fn.mode()
+  local reference
+  local start_line = c.line1
+  local end_line = c.line2
+  
+  log.debug("YankFileReference called")
+  log.debug("Filename:", filename)
+  log.debug("Mode:", mode)
+  log.debug("start_line:", start_line, "end_line:", end_line)
+  
+  if start_line == end_line then
+    reference = string.format('@%s#%d', filename, start_line)
+  else
+    reference = string.format('@%s#%d-%d', filename, start_line, end_line)
+  end
+  
+  log.debug("Reference:", reference)
+  fn.setreg('+', reference)
+  print(reference)
+end, { range = true })
 
 api.nvim_create_user_command('CloseBuffer', function()
   local cur_buf = api.nvim_get_current_buf()

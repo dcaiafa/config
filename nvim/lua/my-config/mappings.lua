@@ -1,4 +1,3 @@
-local map = vim.keymap.set
 local default_options = { silent = true }
 
 local map = function(mode, lhs, rhs, opts) 
@@ -67,5 +66,7 @@ map(modes, '<leader>fr', '<cmd>Telescope git_files<cr>')
 map(modes, '<leader>fs', '<cmd>Telescope lsp_dynamic_workspace_symbols<cr>')
 map(modes, '<leader>ft', function() require('telescope.builtin').lsp_document_symbols({symbols = {"method", "function", "struct"}}) end)
 
-modes = { "n", "i" }
-map(modes, 'yf', '<cmd>YankFilename<cr>')
+map('n', 'yf', '<cmd>YankFilename<cr>')
+
+-- N.B. it must use ':' instead of <cmd> for the visual mode to work.
+map({'n', 'v'}, 'yr', ':YankFileReference<cr>')
