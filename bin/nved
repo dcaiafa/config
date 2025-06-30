@@ -1,5 +1,2 @@
 #!/bin/bash
-
-ROOT=$(cd `dirname $0`; pwd)
-
-pipx run ${ROOT}/nved.py $*
+nvimctl edit $*

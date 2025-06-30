@@ -38,7 +38,7 @@ bindkey "^X^E" edit-command-line
 function my_cd() {
   z $*
   if [[ ! -z "$NVIM" ]]; then
-    nvcd .
+    nvimctl cd .
   fi
 }
 
@@ -70,35 +70,19 @@ elif [[ "$OSTYPE" == "darwin"* ]]; then
   alias n="osascript -e \"display notification \\\"Done\\\" with title \\\"Done\\\"\""
 fi
 
-alias v='nvopen'
+alias v='nvimctl open'
 alias s='printf "$fg[red]"; repeat $(tput cols) printf "#"; printf $reset_color; print'
 
 function cdv() {
-  cd `nvpwd`
+  cd `nvimctl pwd`
 }
 
 # Point `npm install -g` to .local, so that npm -g does not require sudo and
 # doesn't mess with system.
 export npm_config_prefix="$HOME/.local"
 
-# Paths
-export GOBIN=${HOME}/go/bin
-export PATH="${PATH}:${GOBIN}"
-export PATH="${PATH}:${HOME}/config/bin"
-export PATH="${PATH}:${HOME}/.local/bin"
-export PATH="${PATH}:${HOME}/.cargo/bin"
-
-export EDITOR=$HOME/config/bin/nved
+export EDITOR="$HOME/config/bin/nved"
 export KUBE_EDITOR=$EDITOR
-
-# Creates an alias that changes to the current directory.
-bm() {
-  if [ -z "$1" ]; then
-    echo "Usage: bm <alias>"
-    return 0
-  fi
-  alias cd$1="cd `pwd`"
-}
 
 # https://wiki.archlinux.org/title/Zsh#Key_bindings
 # create a zkbd compatible hash;

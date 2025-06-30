@@ -3,7 +3,7 @@
 var git_date_format = "Mon Jan 2 15:04:05 2006 -0700"
 
 func get_branch_info(branch_name) {
-  var commit_date = e`git log -1 {branch_name}` | 
+  var commit_date = e`git log -1 {branch_name} --` | 
     lines |
     map(&e -> e | str.match(r`^Date:\s+(.*)$`) | get(1)) |
     filter(&e -> e != nil) |
