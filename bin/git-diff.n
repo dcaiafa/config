@@ -1,5 +1,7 @@
 #!/usr/bin/env nitro
 
+!param base_revision
+
 func git_root() {
   var r = os.wd()
   while true {
@@ -14,11 +16,6 @@ func git_root() {
   }
 }
 
-var status = 
-  e`git status --porcelain=v2 --branch` |
-  lines |
-  to_array
-
 var root = git_root()
 var wd = os.wd()
 
@@ -27,19 +24,24 @@ func rel_path(p) {
   return filepath.rel(wd, abs_path)
 }
 
-# Parse divergence:
-# branch.ab +1 -2
-var local_commit_count = status |
-  filter(&l -> str.has_prefix(l, "# branch.ab ")) |
-  first |
-  (&l -> str.fields(l)[2])() |
-  to_int
+var status = 
+  e`git status --porcelain=v2 --branch` |
+  lines |
+  to_array
+
+if not base_revision {
+  # Parse upstream branch:
+  # branch.upstream <branch>
+  base_revision = status |
+    filter(&l -> str.has_prefix(l, "# branch.upstream ")) |
+    first |
+    (&l -> str.fields(l)[2])()
+}
 
 var commited_changes = 
-  e`git diff --name-only {sprintf("HEAD~%d", local_commit_count)}` | 
+  e`git diff --name-only {base_revision}` | 
   lines |
   map(&l -> rel_path(l))
-
 
 # Example:
 # 1 .M N... 100644 100644 100644 328dca61c8375ec42990ef0d435f4ff752c788ee 328dca61c8375ec42990ef0d435f4ff752c788ee mp2t/mp2t.go 
@@ -66,5 +68,5 @@ while true {
     default: choice
   }) | (&ndx -> all_changes[ndx])()
 
-  e`git difftool -y {sprintf("HEAD~%d", local_commit_count)} -- {choice}` | io.out
+  e`git difftool -y {base_revision} -- {choice}` | io.out
 }
