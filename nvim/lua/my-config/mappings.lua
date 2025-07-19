@@ -31,6 +31,7 @@ map('n', 'g#', function() return require('starlite').g_hash() end)
 
 -- Terminal.
 map('t', '<ESC><ESC>', '<C-\\><C-n>')
+map('t', '<C-[><C-[>', '<C-\\><C-n>')
 map('t', '<C-h>', '<C-\\><C-n><C-w>h')
 map('t', '<C-j>', '<C-\\><C-n><C-w>j')
 map('t', '<C-k>', '<C-\\><C-n><C-w>k')
