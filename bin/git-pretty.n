@@ -1,0 +1,17 @@
+#!/usr/bin/env nitro
+
+var seen_sep = false
+
+e`git log -1 --pretty=email` |
+  lines |
+  filter(func(l) {
+    if seen_sep {
+      return true
+    }
+    if str.trim_space(l) == "" {
+      seen_sep = true
+    }
+    return false
+  }) |
+  do(func(l) { print(l) })
+
