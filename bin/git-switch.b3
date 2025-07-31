@@ -1,4 +1,4 @@
-#! /usr/bin/env nitro
+#! /usr/bin/env bag3l
 
 var git_date_format = "Mon Jan 2 15:04:05 2006 -0700"
 
@@ -8,7 +8,7 @@ func get_branch_info(branch_name) {
     map(&e -> e | str.match(r`^Date:\s+(.*)$`) | get(1)) |
     filter(&e -> e != nil) |
     take(1) |
-    to_array() |
+    to_list() |
     (&e -> time.parse(e[0], git_date_format))
 
   return {
@@ -28,12 +28,12 @@ var branches =
     map(&e -> e | str.match(r`^\*?\s+(\S+)$`) | get(1)) |
     map(&e -> get_branch_info(e)) |
     sort(".last_commit_date,d") |
-    to_array()
+    to_list()
 
 var selection = prompt({
   message: "Select branch:"
   type:"select"
-  options: branches | map(&e -> e.name) | to_array()
+  options: branches | map(&e -> e.name) | to_list()
   default: current_branch
   vimmode: true
 }) | (&ndx -> branches[ndx].name)()

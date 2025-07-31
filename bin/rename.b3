@@ -1,0 +1,38 @@
+#! /usr/bin/env bag3l
+
+!flag search_value   { name: "s", required }
+!flag replace_value  { name: "r", required }
+!param files = ["*"] { type: "[]str" }
+
+import "path/filepath"
+
+var search_re = regex(search_value)
+
+func do_renaming(dry_run) {
+  files | 
+    map(&glob -> filepath.ls(glob)) |
+    flatten |
+    map(&f -> { full: f, name: filepath.base(f) }) |
+    map(func(f) {
+      f.new_name = str.replace(f.name, search_re, replace_value)
+      return f
+    }) |
+    filter(&f -> f.name != f.new_name) |
+    do(func(f) {
+      var new_full = filepath.join(filepath.dir(f.full), f.new_name)
+      printf("%v => %v", f.full, new_full)
+      if not dry_run {
+        filepath.rename(f.full, new_full)
+      }
+    })
+}
+
+print("Will rename:")
+do_renaming(true)
+
+if prompt("Rename? (y/N)") != "y" {
+  print("Aborting.")
+  return
+}
+
+do_renaming(false)

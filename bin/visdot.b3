@@ -1,0 +1,17 @@
+#!/usr/bin/env bag3l
+
+var tmp_dot = file.create_temp("*.dot")
+defer file.remove(tmp_dot)
+print(tmp_dot.name)
+
+var tmp_png = file.create_temp("*.png")
+close(tmp_png)
+defer file.remove(tmp_png)
+print(tmp_png.name)
+
+e`xclip -quiet -o -selection clipboard` | tmp_dot
+e`dot -Tpng -o {tmp_png.name} {tmp_dot.name}` | io.out()
+e`xdg-open {tmp_png.name}` | io.out()
+
+prompt("Press enter to delete temporary files")
+

@@ -1,4 +1,4 @@
-#! /usr/bin/env nitro
+#! /usr/bin/env bag3l
 
 !flag force {name: "f", type: "bool", desc: "Force push"}
 

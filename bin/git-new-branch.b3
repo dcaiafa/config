@@ -1,4 +1,4 @@
-#! /usr/bin/env nitro
+#! /usr/bin/env bag3l
 
 !param new_branch_name { name: "branch", required, desc: "name of the branch to create" }
 

@@ -1,4 +1,4 @@
-#!/usr/bin/env nitro
+#!/usr/bin/env bag3l
 
 !param base_revision
 
@@ -27,7 +27,7 @@ func rel_path(p) {
 var status = 
   e`git status --porcelain=v2 --branch` |
   lines |
-  to_array
+  to_list
 
 if not base_revision {
   # Parse upstream branch:
@@ -49,13 +49,13 @@ var local_changes = status |
   filter(&l -> str.has_prefix(l, "1 ")) |
   map(&l -> str.fields(l)) |
   map(&f -> f[8]) |
-  to_array
+  to_list
 
 var all_changes = [ local_changes, commited_changes ] |
   flatten |
   unique |
   sort |
-  to_array
+  to_list
 
 var choice = prompt({ 
   message: "Select file:"

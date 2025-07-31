@@ -1,0 +1,76 @@
+#! /usr/bin/env bag3l
+
+var home_dir = os.home()
+var hostname = file.open("/proc/sys/kernel/hostname") | read | str.trim_space
+var temp_dir = filepath.mkdir_temp()
+defer filepath.remove_all(temp_dir)
+var tar_file = filepath.join(temp_dir, "backup.tar.gz")
+
+func pacman_dump() {
+  # Omit xorg packages to make list more concise.
+  var xorg_pkgs = e`pacman -Qqg xorg` | lines | maps.make(&e -> [e, true])
+
+  var pkgs = e`pacman -Qqen` | 
+    lines |
+    filter(&e -> not xorg_pkgs[e]) |
+    sort
+
+  io.push_out(file.create(filepath.join(home_dir, ".pacman_dump")))
+  defer close(io.pop_out())
+  print("sudo pacman -S --needed \\")
+  for b in (pkgs | batch(4)) {
+    print("  " + join(b, " ") + " \\")
+  }
+}
+
+pacman_dump()
+
+var files = [
+  ".Xmodmap"
+  ".aws/config"
+  ".aws/credentials"
+  ".config/clipcat"
+  ".config/dunst"
+  ".config/go"
+  ".config/handlr"
+  ".config/kitty"
+  ".config/mimeapps.list"
+  ".config/nvim"
+  ".config/picom.conf"
+  ".config/qtile"
+  ".config/rclone"
+  ".config/rofi"
+  ".config/rustfmt"
+  ".gitconfig"
+  ".kube/config"
+  ".pacman_dump"
+  ".ssh"
+  ".xprofile"
+  ".zshrc"
+  "Documents/download.sh"
+  "Documents/upload.sh"
+
+  # iSP
+  ".Codefresh"
+  ".cfconfig"
+  ".source-cli"
+] |
+  filter(func(f) { 
+    if not filepath.exists(filepath.join(home_dir, f)) {
+      log("Skipping", f)
+      return false
+    }
+    return true
+  }) |
+  to_list
+
+print("Creating tar file.")
+e`tar -C {home_dir} -cavf {tar_file} {files...}` | discard
+
+var dest_file = sprintf(
+  "gdrive:/backup/backup-%s-%s.tar.gz",
+  hostname,
+  time.now() | time.format("2006-01-02"))
+
+printf("Copying to %v", dest_file)
+e`rclone copyto {tar_file} {dest_file}` | io.out

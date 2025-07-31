@@ -1,4 +1,4 @@
-#! /usr/bin/env nitro
+#! /usr/bin/env bag3l
 
 var current_branch = 
   e`git branch --show-current` | 

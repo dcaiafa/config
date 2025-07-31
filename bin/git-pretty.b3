@@ -1,4 +1,4 @@
-#!/usr/bin/env nitro
+#!/usr/bin/env bag3l
 
 var seen_sep = false
 

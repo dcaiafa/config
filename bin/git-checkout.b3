@@ -1,4 +1,4 @@
-#!/usr/bin/env nitro
+#!/usr/bin/env bag3l
 
 !param branch_substr { type: "[]str" }
 !flag force { name: "f", type: "bool" }
@@ -18,7 +18,7 @@ var main_branch = list.find(remote_branches, "main") ?
 
 if len(branch_substr) != 0 {
   for f in branch_substr {
-    remote_branches = remote_branches | filter(&b -> str.find(b, f)) | to_array
+    remote_branches = remote_branches | filter(&b -> str.find(b, f)) | to_list
   }
 }
 
