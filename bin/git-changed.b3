@@ -65,4 +65,4 @@ var choice = prompt({
   pagesize: 40
 }) | (&ndx -> all_changes[ndx])()
 
-e`nvopen {choice}` | io.out
+e`nvimctl open {choice}` | io.out
