@@ -26,7 +26,7 @@ if branch_exists("origin/main") {
   throw "repo does not have a main branch"
 }
 
-var ans = prompt(sprintf("Delete branch %v? (y/N)", current_branch))
+var ans = prompt(f"Delete branch {current_branch}? (y/N)")
 if str.to_lower(ans) != "y" {
   print("Aborting.")
   return

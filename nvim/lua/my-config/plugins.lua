@@ -206,7 +206,8 @@ packer.startup(function(use)
   }
 
   use { 'kyazdani42/nvim-web-devicons' }
-  use { 'dcaiafa/vim-nitro' }
+  --use { 'dcaiafa/vim-nitro' }
+  use { '~/src/my/vim-nitro' }
   --use { 'dcaiafa/vim-lox' }
   use { '~/src/my/vim-lox' }
 

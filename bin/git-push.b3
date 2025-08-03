@@ -12,7 +12,7 @@ if current_branch == "main" or current_branch == "master" {
     throw "can't force push to main"
   }
 
-  if prompt(sprintf("Pushing to %v. ARE YOU SURE?! (y/N)", current_branch)) | str.to_lower != "y" {
+  if prompt(f"Pushing to {current_branch}. ARE YOU SURE?! (y/N)") | str.to_lower != "y" {
     print("Aborting.")
     return
   }
@@ -21,4 +21,3 @@ if current_branch == "main" or current_branch == "master" {
 e`git push origin {current_branch} {force ? "-f" : nil}` |
   exec.with_stderr(io.err()) |
   io.out
-
