@@ -30,8 +30,8 @@ var status =
   to_list
 
 if not base_revision {
-  # Parse upstream branch:
-  # branch.upstream <branch>
+  // Parse upstream branch:
+  // branch.upstream <branch>
   base_revision = status |
     filter(&l -> str.has_prefix(l, "# branch.upstream ")) |
     first |
@@ -43,8 +43,8 @@ var commited_changes =
   lines |
   map(&l -> rel_path(l))
 
-# Example:
-# 1 .M N... 100644 100644 100644 328dca61c8375ec42990ef0d435f4ff752c788ee 328dca61c8375ec42990ef0d435f4ff752c788ee mp2t/mp2t.go 
+// Example:
+// 1 .M N... 100644 100644 100644 328dca61c8375ec42990ef0d435f4ff752c788ee 328dca61c8375ec42990ef0d435f4ff752c788ee mp2t/mp2t.go 
 var local_changes = status |
   filter(&l -> str.has_prefix(l, "1 ")) |
   map(&l -> str.fields(l)) |

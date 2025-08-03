@@ -7,7 +7,7 @@ defer filepath.remove_all(temp_dir)
 var tar_file = filepath.join(temp_dir, "backup.tar.gz")
 
 func pacman_dump() {
-  # Omit xorg packages to make list more concise.
+  // Omit xorg packages to make list more concise.
   var xorg_pkgs = e`pacman -Qqg xorg` | lines | maps.make(&e -> [e, true])
 
   var pkgs = e`pacman -Qqen` | 
@@ -50,7 +50,7 @@ var files = [
   "Documents/download.sh"
   "Documents/upload.sh"
 
-  # iSP
+  // iSP
   ".Codefresh"
   ".cfconfig"
   ".source-cli"
