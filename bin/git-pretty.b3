@@ -1,17 +1,10 @@
 #!/usr/bin/env bag3l
 
-var seen_sep = false
+!param ref = "HEAD"
 
-e`git log -1 --pretty=email` |
+e`git show --pretty=medium -s {ref}` |
   lines |
-  filter(func(l) {
-    if seen_sep {
-      return true
-    }
-    if str.trim_space(l) == "" {
-      seen_sep = true
-    }
-    return false
-  }) |
-  do(func(l) { print(l) })
+  skip(4) |
+  map(&l -> str.trim_prefix(l, "    ")) |
+  print
 
