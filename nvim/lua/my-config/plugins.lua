@@ -225,4 +225,6 @@ packer.startup(function(use)
 
   -- https://github.com/ellisonleao/gruvbox.nvim
   use { 'ellisonleao/gruvbox.nvim' }
+
+  use { 'terrastruct/d2-vim' }
 end)
