@@ -1,0 +1,21 @@
+#! /usr/bin/env bag3l
+
+var prompt =
+  "Print a commit message for the pending git changes. Use conventional commit (feat,fix,chore) titles. Be concise. " +
+  "Use triple-back-ticks ``` to indicate the message."
+
+var claude_message = e`claude --allowedTools "Bash(git:*)" -p {prompt}` | read
+
+print(claude_message)
+
+var commit_message = claude_message |
+  lines | 
+  skip_until(&l -> str.has_prefix(l, "```")) |
+  take_while(&l -> not str.has_prefix(l, "```")) |
+  to_list
+
+if len(commit_message) == 0 {
+  throw "Could not find commit message in response from claude"
+}
+
+commit_message | stream | e`git commit -a -F -` | io.out
