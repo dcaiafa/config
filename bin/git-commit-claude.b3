@@ -1,8 +1,12 @@
 #! /usr/bin/env bag3l
 
-var prompt =
-  "Print a commit message for the pending git changes. Use conventional commit (feat,fix,chore) titles. Be concise. " +
-  "Use triple-back-ticks ``` to indicate the message."
+var prompt = `
+- Print a commit message for the pending git changes.
+- Use conventional commit titles. Only use the prefixes: feat, fix, chore.
+- Be concise.
+- Use triple-back-ticks to indicate the message.
+- Don't include co-authored mentions.
+`
 
 var claude_message = e`claude --allowedTools "Bash(git:*)" -p {prompt}` | read
 
