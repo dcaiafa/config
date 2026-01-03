@@ -18,6 +18,6 @@ if current_branch == "main" or current_branch == "master" {
   }
 }
 
-e`git push origin {current_branch} {force ? "-f" : nil}` |
+e`git push origin {current_branch} {force ?? "-f" : nil}` |
   exec.with_stderr(io.err()) |
   io.out

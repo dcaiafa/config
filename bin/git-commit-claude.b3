@@ -1,5 +1,7 @@
 #! /usr/bin/env bag3l
 
+!param desc { desc: "Additional context for the agent" }
+
 var prompt = `
 - Print a commit message for the pending git changes.
 - Use conventional commit titles. Only use the prefixes: feat, fix, chore.
@@ -7,6 +9,15 @@ var prompt = `
 - Use triple-back-ticks to indicate the message.
 - Don't include co-authored mentions.
 `
+
+if desc {
+  prompt += `
+- Use the following context provided by the developer. This information should
+  be highlighted and prioritized in the commit title and in the description.
+Context:
+`
+  prompt += desc
+}
 
 var claude_message = e`claude --allowedTools "Bash(git:*)" -p {prompt}` | read
 

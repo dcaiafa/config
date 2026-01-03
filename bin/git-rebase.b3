@@ -1,0 +1,10 @@
+#!/usr/bin/env bag3l
+
+e`git fetch origin` | io.out
+
+var current_branch = 
+  e`git branch --show-current` | 
+  read | 
+  str.trim_space
+
+e`git rebase origin/{current_branch}` | io.out

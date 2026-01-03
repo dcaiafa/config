@@ -79,7 +79,7 @@ function cdv() {
 
 # Point `npm install -g` to .local, so that npm -g does not require sudo and
 # doesn't mess with system.
-export npm_config_prefix="$HOME/.local"
+#export npm_config_prefix="$HOME/.local"
 
 export EDITOR="$HOME/config/bin/nved"
 export KUBE_EDITOR=$EDITOR
