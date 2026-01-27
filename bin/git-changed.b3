@@ -21,7 +21,7 @@ var wd = os.get_workdir()
 
 func rel_path(p) {
   var abs_path = filepath.join(root, p)
-  return filepath.rel(wd, abs_path)
+  return filepath.rel(abs_path, wd)
 }
 
 var status = 
