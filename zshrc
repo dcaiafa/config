@@ -27,8 +27,9 @@ autoload -U colors && colors
 # Configure prompt
 autoload -Uz promptinit && promptinit
 
-PROMPT="%{$fg_bold[blue]%} %% %{$reset_color%}"
-RPROMPT="%{$fg[blue]%} %4d %{$reset_color%}"
+#PROMPT="%{$fg_bold[blue]%} %% %{$reset_color%}"
+#RPROMPT="%{$fg[blue]%} %4d %{$reset_color%}"
+PROMPT="%{$fg_bold[blue]%} %3d $ %{$reset_color%}"
 
 # Enable C-X C-E to edit command line in editor
 autoload -z edit-command-line
