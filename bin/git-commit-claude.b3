@@ -27,7 +27,7 @@ var commit_message = claude_message |
   str.lines | 
   skip_until(&l -> str.has_prefix(l, "```")) |
   take_while(&l -> not str.has_prefix(l, "```")) |
-  list.into
+  list.into()
 
 if len(commit_message) == 0 {
   throw "Could not find commit message in response from claude"

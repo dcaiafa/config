@@ -20,7 +20,7 @@ func do_renaming(dry_run) {
     filter(&f -> f.name != f.new_name) |
     do(func(f) {
       var new_full = filepath.join(filepath.dir(f.full), f.new_name)
-      printf("%v => %v", f.full, new_full)
+      print(f"{f.full} => {new_full}", f.full, new_full)
       if not dry_run {
         filepath.rename(f.full, new_full)
       }

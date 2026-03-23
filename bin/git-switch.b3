@@ -25,7 +25,7 @@ var current_branch =
 var branches = 
   e`git branch` |
     str.lines |
-    map(&e -> e | str.match(r`^[*+]?\s+(\S+)$`) | .[1]) |
+    map(&e -> e | str.match(r`^\*?\s+(\S+)$`) | .[1]?) |
     map(&e -> get_branch_info(e)) |
     sort(".last_commit_date,d") |
     list.into()
