@@ -29,7 +29,12 @@ autoload -Uz promptinit && promptinit
 
 #PROMPT="%{$fg_bold[blue]%} %% %{$reset_color%}"
 #RPROMPT="%{$fg[blue]%} %4d %{$reset_color%}"
-PROMPT="%{$fg_bold[blue]%} %3d $ %{$reset_color%}"
+# Show the hostname in the prompt only when connected remotely (over SSH).
+if [[ -n "$SSH_CONNECTION" ]]; then
+  PROMPT="%{$fg_bold[red]%}%m%{$reset_color%}%{$fg_bold[blue]%} %3d $ %{$reset_color%}"
+else
+  PROMPT="%{$fg_bold[blue]%} %3d $ %{$reset_color%}"
+fi
 
 # Enable C-X C-E to edit command line in editor
 autoload -z edit-command-line
