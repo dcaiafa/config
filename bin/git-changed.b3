@@ -26,8 +26,8 @@ func rel_path(p) {
 
 var status = 
   e`git status --porcelain=v2 --branch` |
-  lines |
-  to_list
+  str.lines |
+  list.into
 
 if not base_revision {
   // Parse upstream branch:
@@ -40,7 +40,7 @@ if not base_revision {
 
 var commited_changes = 
   e`git diff --name-only {base_revision}` | 
-  lines |
+  str.lines |
   map(&l -> rel_path(l))
 
 // Example:
@@ -49,13 +49,13 @@ var local_changes = status |
   filter(&l -> str.has_prefix(l, "1 ")) |
   map(&l -> str.fields(l)) |
   map(&f -> f[8]) |
-  to_list
+  list.into
 
 var all_changes = [ local_changes, commited_changes ] |
   flatten |
   unique |
   sort |
-  to_list
+  list.into
 
 var choice = prompt({ 
   message: "Select file:"

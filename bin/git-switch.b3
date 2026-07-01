@@ -4,11 +4,11 @@ var git_date_format = "Mon Jan 2 15:04:05 2006 -0700"
 
 func get_branch_info(branch_name) {
   var commit_date = e`git log -1 {branch_name} --` | 
-    lines |
-    map(&e -> e | str.match(r`^Date:\s+(.*)$`) | get(1)) |
+    str.lines |
+    map(&e -> e | str.match(r`^Date:\s+(.*)$`) | .[1]?) |
     filter(&e -> e != nil) |
     take(1) |
-    to_list() |
+    list.into() |
     (&e -> time.parse(e[0], git_date_format))
 
   return {
@@ -24,16 +24,16 @@ var current_branch =
 
 var branches = 
   e`git branch` |
-    lines |
-    map(&e -> e | str.match(r`^\*?\s+(\S+)$`) | get(1)) |
+    str.lines |
+    map(&e -> e | str.match(r`^[*+]?\s+(\S+)$`) | .[1]) |
     map(&e -> get_branch_info(e)) |
     sort(".last_commit_date,d") |
-    to_list()
+    list.into()
 
 var selection = prompt({
   message: "Select branch:"
   type:"select"
-  options: branches | map(&e -> e.name) | to_list()
+  options: branches | map(&e -> e.name) | list.into()
   default: current_branch
   vimmode: true
 }) | (&ndx -> branches[ndx].name)()

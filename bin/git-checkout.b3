@@ -7,7 +7,7 @@ e`git fetch` | discard
 e`git remote prune origin` | discard
 
 var remote_branches = e`git branch -r` |
-  lines |
+  str.lines |
   map(&l -> str.trim_space(l)) |
   filter(&l -> not str.find(l, "origin/HEAD")) |
   map(&l -> str.replace(l, r`origin/(\w+)`, "$1")) |
@@ -18,7 +18,7 @@ var main_branch = list.find(remote_branches, "main") ??
 
 if len(branch_substr) != 0 {
   for f in branch_substr {
-    remote_branches = remote_branches | filter(&b -> str.find(b, f)) | to_list
+    remote_branches = remote_branches | filter(&b -> str.find(b, f)) | list.into
   }
 }
 

@@ -43,11 +43,6 @@ function my_cd() {
   fi
 }
 
-function open() {
-  nohup xdg-open $* &> /dev/null &
-  disown
-}
-
 # Aliases
 alias l='ls -CF'
 alias la='ls -A'

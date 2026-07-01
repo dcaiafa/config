@@ -3,7 +3,7 @@
 !param ref = "HEAD"
 
 e`git show --pretty=medium -s {ref}` |
-  lines |
+  str.lines |
   skip(4) |
   map(&l -> str.trim_prefix(l, "    ")) |
   print
